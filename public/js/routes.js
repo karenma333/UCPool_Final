@@ -2,8 +2,16 @@ var angularApp = angular.module('UCPool', ['ngRoute']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {
-      templateUrl: './partials/home.html',
+      templateUrl:  isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
       controller: 'homeController'
+    })
+    .when('/event/:id/ride', {
+      templateUrl: './partials/eventRide.html',
+      controller: 'eventRideController'
+    })
+    .when('/event/:id/drive', {
+      templateUrl: './partials/eventDrive.html',
+      controller: 'eventDriveController'
     })
     .when('/404', {
       templateUrl: './partials/404.html'
