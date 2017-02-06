@@ -4,8 +4,10 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const config = require('./config');
 const api = require('./routes/api');
+const authenticate = require('./middlewares/authenticate');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -18,9 +20,12 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(config.secret));
 app.use(express.static(path.join(__dirname, 'public')));
 
+mongoose.connect(config.dbUrl);
+
+app.use(authenticate);
 app.use('/api/', api);
 app.use((req, res) => {
   res.sendFile(__dirname + '/public/index.html');
