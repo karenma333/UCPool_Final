@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="UCPool">
+<head>
+  <meta charset="UTF-8">
+  <title>UCPool</title>
+  <base href="/">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-route.min.js"></script>
+  <script src="js/routes.js"></script>
+
+  <!--Controllers-->
+  <script src="controllers/homeController.js"></script>
+  <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="main-wrapper">
+  <ng-view autoscroll="true"></ng-view>
+</div>
+</body>
+</html>
