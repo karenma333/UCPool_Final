@@ -18,5 +18,5 @@ angularApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 })
   .run(function ($rootScope) {
-
+    $rootScope.isLoggedIn = isLoggedIn;
   });
