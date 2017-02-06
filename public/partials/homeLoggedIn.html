@@ -1,12 +1,20 @@
-<h1>This is the home page</h1>
 <!--TODO modify page-->
-<ul>
-    <div>
-        <h4>Event 1</h4>
-        <p>Description...</p>
-        <h7><b>Location:</b>123 Stanford St.</h7>
-        <h7><b>Time:</b>7:30 PM</h7>
-        <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
-        <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
+<div class="container-fluid text-center">
+    <div class="jumbotron">
+        <h1>Upcoming Events</h1>
     </div>
+</div>
+<div class="container">
+<ul>
+        <h2 class = "text-center">Event 1</h2>
+        <ul class="list-group">
+        <li class="list-group-item">Description...</li>
+        <li class="list-group-item"><b>Location: </b>123 Stanford St.</li>
+        <li class="list-group-item"><b>Time: </b>7:30 PM</li>
+        </ul>
+        <div class="btn-group-justified">
+            <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
+            <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
+        </div>
 </ul>
+</div>
