@@ -8,11 +8,13 @@
   "dependencies": {
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.6.0",
+    "debug": "^2.6.0",
     "express": "~4.14.1",
     "fb": "^1.1.1",
     "jade": "~1.11.0",
     "jsonwebtoken": "^7.2.1",
+    "mailcomposer": "^4.0.1",
+    "mailgun-js": "^0.8.1",
     "mongoose": "^4.8.1",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.2"

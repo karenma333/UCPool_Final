@@ -16,7 +16,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
               // User never registered. Take him/her to register page
               $location.path('register');
             } else if (response.status === 403) {
-              $scope.error = 'Your email hasn\'t been verified. Please verify your email.'
+              $rootScope.registered = true;
+              $location.path('/register/confirmation');
             } else {
               $scope.error = 'Unknown error occurred. Please try again later.';
             }

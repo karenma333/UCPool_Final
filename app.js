@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const api = require('./routes/api');
+const verify = require('./routes/verify');
 const authenticate = require('./middlewares/authenticate');
 const mongoose = require('mongoose');
 
@@ -27,6 +28,7 @@ mongoose.connect(config.dbUrl);
 
 app.use(authenticate);
 app.use('/api/', api);
+app.get('/verify', verify);
 app.use((req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });

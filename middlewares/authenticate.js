@@ -21,14 +21,17 @@ module.exports = (req, res, next) => {
             res.clearCookie('Authorization', null);
             return next();
           }
-
+          if ((new Date(payload.refLastUpdated)).getTime() !== refToken.lastUpdated.getTime()) {
+            res.clearCookie('Authorization', null);
+            return next();
+          }
           refToken.save((err, refToken) => {
             if (err) {
               res.clearCookie('Authorization', null);
               return next();
             }
 
-            const token = jwt.sign({ refreshToken: refToken._id },
+            const token = jwt.sign({ refreshToken: refToken._id, refLastUpdated: refToken.lastUpdated },
               secret,
               { expiresIn: '5m', issuer: payload.iss });
 

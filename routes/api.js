@@ -51,7 +51,7 @@ router.post('/login', (req, res) => {
           if (err)
             return res.sendStatus(500);
 
-          const token = jwt.sign({refreshToken: refToken._id},
+          const token = jwt.sign({refreshToken: refToken._id, refLastUpdated: refToken.lastUpdated},
             config.secret, {expiresIn: '5m', issuer: user.id});
 
           res.cookie('Authorization', token, {maxAge: two_weeks_millis, signed: true, httpOnly: false});
@@ -89,11 +89,51 @@ router.post('/register', (req, res) => {
         return res.status(400).json({error: err.message});
       }
       res.sendStatus(200);
-      // TODO send verification email
+      user.sendVerificationEmail((err) => {});
     });
   });
 });
 
+
+/**
+ * POST: /api/resend_confirmation
+ * Resend a confirmation email to the user
+ *
+ * EXPECTS: {token}
+ * RESPONDS: Code 200 if all OK,
+ *          400 with error json
+ */
+router.post('/resend_verification', (req, res) => {
+  if (!req.body.token) {
+    return res.status(400).json({error: 'Missing fields.'});
+  }
+  let fb = new FB.Facebook();
+  fb.setAccessToken(req.body.token);
+  fb.api('me', (fbRes) => {
+    if (!fbRes || fbRes.error) {
+      res.status(400).json({error: 'Invalid Facebook access token'});
+    }
+    User.findOne({'facebookId': fbRes.id}, (err, user) => {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      if (!user) {
+        return res.status(400).json({error: 'This Facebook account was never registered with us.'});
+      }
+      if (user.verified) {
+        return res.status(400).json({error: 'This email has already been verified.'});
+      }
+      user.sendVerificationEmail(err => {
+        if (err) {
+          return res.sendStatus(500);
+        }
+        res.sendStatus(200);
+        user.facebookToken = req.body.token;
+        user.save();
+      });
+    });
+  });
+});
 
 /**
  * POST: /api/logout
