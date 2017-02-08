@@ -24,6 +24,12 @@ angularApp.controller('registerController', function ($rootScope, $scope, $locat
     $scope.submitting = true;
     FB.login(function(response) {
       if (response.status === 'connected') {
+        if (response.authResponse.grantedScopes.split(',').length !== 2) {
+          $scope.$apply(function () {
+            $scope.error = 'This app needs permissions to your Facebook events to work.';
+          });
+          return;
+        }
         var data = {token: response.authResponse.accessToken, email: $scope.email};
         $http.post('/api/register', data)
           .then(function success(response) {
@@ -43,13 +49,19 @@ angularApp.controller('registerController', function ($rootScope, $scope, $locat
           $scope.submitting = false;
         });
       }
-    });
+    }, {scope: 'user_events', return_scopes: true, auth_type: 'rerequest'});
   };
 
   $scope.resendConfirmation = function () {
     $scope.submitting = true;
     FB.login(function (response) {
       if (response.status === 'connected') {
+        if (response.authResponse.grantedScopes.split(',').length !== 2) {
+          $scope.$apply(function () {
+            $scope.status = 'This app needs permissions to your Facebook events to work.';
+          });
+          return;
+        }
         var data = {token: response.authResponse.accessToken};
         $http.post('/api/resend_verification', data)
           .then(function success(response) {
@@ -68,6 +80,6 @@ angularApp.controller('registerController', function ($rootScope, $scope, $locat
           $scope.submitting = false;
         });
       }
-    });
+    }, {scope: 'user_events', return_scopes: true, auth_type: 'rerequest'});
   };
 });

@@ -4,6 +4,12 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.error = null;
     FB.login(function(response) {
       if (response.status === 'connected') {
+        if (response.authResponse.grantedScopes.split(',').length !== 2) {
+          $scope.$apply(function () {
+            $scope.error = 'This app needs permissions to your Facebook events to work.';
+          });
+          return;
+        }
         var data = {token: response.authResponse.accessToken};
         $http.post('/api/login', data)
           .then(function success(response) {
@@ -28,7 +34,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
           $scope.submitting = false;
         });
       }
-    });
+    }, {scope: 'user_events', return_scopes: true, auth_type: 'rerequest'});
     $scope.submitting = true;
   };
 

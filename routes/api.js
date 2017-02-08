@@ -7,7 +7,9 @@ const jwt = require('jsonwebtoken');
 const FB = require('fb');
 const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const two_weeks_millis = 14 * 24 * 3600000;
+const webHook = require('./webHook');
 
+router.use('/webhook', webHook);
 
 /**
  * POST: /api/login
