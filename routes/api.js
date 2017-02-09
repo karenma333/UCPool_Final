@@ -12,6 +12,41 @@ const webHook = require('./webHook');
 router.use('/webhook', webHook);
 
 /**
+ * GET: /api/me
+ * Get basic user info
+ *
+ * EXPECTS: None
+ * RESPONDS: {name, id} : id refers to the facebook id
+ *          Code 401 if not logged in
+ */
+router.get('/me', (req, res) => {
+  if (!req.userId) {
+    return res.sendStatus(401);
+  }
+  User.findById(req.userId, (err, user) => {
+    if (err || !user) {
+      return res.sendStatus(500);
+    }
+    let fb = new FB.Facebook();
+    fb.setAccessToken(user.facebookToken);
+    fb.api('/me', (fbRes) => {
+      if (fbRes.error) {
+        if (fbRes.error.code === 190) { // User unauthenticated us from facebook
+          user.facebookToken = null;
+          return user.save((err) => {
+            res.clearCookie('Authorization', null);
+            res.sendStatus(401);
+          });
+        } else {
+          res.sendStatus(500);
+        }
+      }
+      res.json(fbRes);
+    });
+  });
+});
+
+/**
  * POST: /api/login
  * Login a user
  *
@@ -41,8 +76,7 @@ router.post('/login', (req, res) => {
       if (!user.verified) {
         return res.sendStatus(403);
       }
-      user.facebookToken = req.body.token; // update access token
-      user.save((err, user) => {
+      user.updateFacebookToken(req.body.token, (err, user) => {
         if (err) {
           return res.sendStatus(500);
         }
@@ -57,7 +91,7 @@ router.post('/login', (req, res) => {
             config.secret, {expiresIn: '5m', issuer: user.id});
 
           res.cookie('Authorization', token, {maxAge: two_weeks_millis, signed: true, httpOnly: false});
-          res.sendStatus(200);
+          res.sendStatus(200);;
         });
       });
     });
@@ -92,6 +126,7 @@ router.post('/register', (req, res) => {
       }
       res.sendStatus(200);
       user.sendVerificationEmail((err) => {});
+      user.updateFacebookToken(user.facebookToken, () => {});
     });
   });
 });
@@ -130,8 +165,7 @@ router.post('/resend_verification', (req, res) => {
           return res.sendStatus(500);
         }
         res.sendStatus(200);
-        user.facebookToken = req.body.token;
-        user.save();
+        user.updateFacebookToken(req.body.token, ()=>{});
       });
     });
   });

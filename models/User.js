@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const mailComposer = require('mailcomposer');
 const mailGun = require('mailgun-js')(config.mailGunConfig);
+const FB = require('fb');
 
 const jade = require('jade');
 const fs = require('fs');
@@ -43,6 +44,30 @@ userSchema.methods.sendVerificationEmail = function(next) {
     mailGun.messages().sendMime(dataToSend, (err, body) => {
       next(err);
     });
+  });
+};
+
+
+/**
+ * Use the short lived token and make a call to Facebook to get a long lived token
+ * and save it to the DB
+ * @param token short lived FB access token from the client side
+ * @param next callback (err, user)
+ */
+userSchema.methods.updateFacebookToken = function (token, next) {
+  let user = this;
+  let fb = new FB.Facebook();
+  FB.api('/oauth/access_token', {
+    client_id: config.facebookAppId,
+    client_secret: config.facebookAppSecret,
+    grant_type: 'fb_exchange_token',
+    fb_exchange_token: token
+  }, function (fbRes) {
+    if (fbRes.error) {
+      return next(new Error('Invalid token provided.'));
+    }
+    user.facebookToken = fbRes.access_token;
+    user.save(next);
   });
 };
 

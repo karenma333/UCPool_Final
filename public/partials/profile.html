@@ -1,2 +1,4 @@
-<img class="profile-picture" src="http://lorempixel.com/400/400/people">
+<!--Facebook Picture-->
+<img class="profile-picture" ng-show="user" ng-src="https://graph.facebook.com/{{user.id}}/picture?height=400&width=400">
+<h4>{{user.name}}</h4>
 <a ng-click="logout()">Logout</a>

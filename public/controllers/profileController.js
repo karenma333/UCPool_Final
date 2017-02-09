@@ -1,12 +1,16 @@
-angularApp.controller('profileController', function ($scope, $http, $location) {
+angularApp.controller('profileController', function ($scope, $http) {
   $scope.logout = function () {
     FB.logout();
     $http.post('/api/logout', null)
       .then(function success(response) {
         // Successfully logged out
-        $location.path('home');
+        window.location.href = '/';
       }, function failure(response) {
-        $location.path('home');
+        window.location.href = '/';
       });
   };
+  $http.get('/api/me')
+    .then(function success(response) {
+      $scope.user = response.data;
+    });
 });
