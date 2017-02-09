@@ -1,4 +1,4 @@
-angularApp.controller('registerController', function ($rootScope, $scope, $location, $http, $window) {
+angularApp.controller('registerController', function ($rootScope, $scope, $location, $http) {
   if (isLoggedIn()) {
     $location.path('/home').replace();
   }

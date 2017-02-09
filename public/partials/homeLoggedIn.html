@@ -1,21 +1,20 @@
-<div class="container-fluid text-center">
-    <div class="jumbotron">
-        <h1>Upcoming Events</h1>
-    </div>
+<div class="list-group text-center">
+  <div class="list-group-item list-group-item-home">
+    <h1>Upcoming Events</h1>
+  </div>
 </div>
 <div class="container">
-<ul>
-        <h2 class = "text-center">Event 1</h2>
-        <ul class="list-group">
-        <li class="list-group-item">Description...</li>
-        <li class="list-group-item"><b>Location: </b>123 Stanford St.</li>
-        <li class="list-group-item"><b>Time: </b>7:30 PM</li>
-        </ul>
-        <div class="btn-group-justified">
-            <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
-            <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
-        </div>
-</ul>
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3>Event 1</h3></div>
+    <div class="panel-body">
+      <p>Description...</p>
+      <p><b>Location:</b> 123 Stanford St.</p>
+      <p><b>Data:</b> Fri, 10 Feb 2017</p>
+      <p><b>Time:</b>7:30 PM</p>
+      <div class="btn-group-justified">
+        <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
+        <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
+      </div>
+    </div>
+  </div>
 </div>
-
-<a ng-click="logout()">logout</a>

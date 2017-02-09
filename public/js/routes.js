@@ -1,4 +1,4 @@
-var angularApp = angular.module('UCPool', ['ngRoute']);
+var angularApp = angular.module('UCPool', ['ngRoute', 'mobile-angular-ui']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {
@@ -20,6 +20,10 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     .when('/register/confirmation', {
       templateUrl: './partials/register.html',
       controller: 'registerController'
+    })
+    .when('/profile', {
+      templateUrl: './partials/profile.html',
+      controller: 'profileController'
     })
     .when('/404', {
       templateUrl: './partials/404.html'

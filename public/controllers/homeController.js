@@ -1,4 +1,7 @@
 angularApp.controller('homeController', function($scope, $http, $rootScope, $location, $window) {
+  if (!isLoggedIn()) {
+    $rootScope.hideNavBar = true;
+  }
   $scope.submitting = $rootScope.FB;
   $scope.fbLogin = function () {
     $scope.error = null;
@@ -36,22 +39,5 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       }
     }, {scope: 'user_events', return_scopes: true, auth_type: 'rerequest'});
     $scope.submitting = true;
-  };
-
-  $scope.logout = function () {
-    $scope.error = null;
-    $http.post('/api/logout', null)
-      .then(function success(response) {
-        // Successfully logged out
-        if ($location.path() === '/home')
-          $window.location.reload();
-        else
-          $location.path('home');
-      }, function failure(response) {
-        if ($location.path() === '/home')
-          $window.location.reload();
-        else
-          $location.path('home');
-      });
   };
 });

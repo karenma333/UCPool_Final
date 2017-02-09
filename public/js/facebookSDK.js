@@ -6,6 +6,22 @@ window.fbAsyncInit = function() {
     version    : 'v2.8'
   });
   FB.AppEvents.logPageView();
+  if (isLoggedIn()) {
+    FB.getLoginStatus(function (response) {
+      if (response.status !== 'connected')
+        FB.login(function (response) {
+          if (response.status !== 'connected') {
+            function goToHome() {
+              window.location.href = '/home';
+            }
+            $.ajax('/api/logout', {
+              success: goToHome,
+              error: goToHome
+            });
+          }
+        });
+    });
+  }
 };
 (function(d, s, id){
   var js, fjs = d.getElementsByTagName(s)[0];
