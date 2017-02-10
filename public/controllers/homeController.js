@@ -40,4 +40,42 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     }, {scope: 'user_events', return_scopes: true, auth_type: 'rerequest'});
     $scope.submitting = true;
   };
+
+  $scope.events = [
+    {
+      title: 'Event 1',
+      description: 'Description...',
+      location: '123 Stanford St.',
+      date: 'Friday, 10 Feb 2017',
+      time: '7:30 PM'
+    },
+    {
+      title: 'Event 2',
+      description: 'Description...',
+      location: '123 Stanford St.',
+      date: 'Friday, 10 Feb 2017',
+      time: '7:30 PM'
+    },
+    {
+      title: 'Event 3',
+      description: 'Description...',
+      location: '123 Stanford St.',
+      date: 'Friday, 10 Feb 2017',
+      time: '7:30 PM'
+    },
+    {
+      title: 'Event 4',
+      description: 'Description...',
+      location: '123 Stanford St.',
+      date: 'Friday, 10 Feb 2017',
+      time: '7:30 PM'
+    },
+    {
+      title: 'Event 5',
+      description: 'Description...',
+      location: '123 Stanford St.',
+      date: 'Friday, 10 Feb 2017',
+      time: '7:30 PM'
+    }
+  ];
 });

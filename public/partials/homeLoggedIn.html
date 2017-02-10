@@ -1,19 +1,18 @@
-<div class="list-group text-center">
-  <div class="list-group-item list-group-item-home">
-    <h1>Upcoming Events</h1>
-  </div>
-</div>
+<h2 class="text-center">Upcoming Events</h2>
+<hr>
 <div class="container">
-  <div class="panel panel-default">
-    <div class="panel-heading text-center"><h3>Event 1</h3></div>
-    <div class="panel-body">
-      <p>Description...</p>
-      <p><b>Location:</b> 123 Stanford St.</p>
-      <p><b>Date:</b> Friday, 10 Feb 2017</p>
-      <p><b>Time:</b> 7:30 PM</p>
-      <div class="btn-group-justified">
-        <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
-        <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
+  <div ng-repeat="event in events">
+    <div class="event panel panel-default">
+      <div class="panel-heading text-center"><h3>{{event.title}}</h3></div>
+      <div class="panel-body">
+        <p>{{event.description}}</p>
+        <p><b>Location:</b> {{event.location}}</p>
+        <p><b>Date:</b> {{event.date}}</p>
+        <p><b>Time:</b> {{event.time}}</p>
+        <div class="btn-group-justified">
+          <a ng-href="/event/123/ride" class="btn btn-default">Fix me a ride</a>
+          <a ng-href="/event/123/drive" class="btn btn-default">I'm driving</a>
+        </div>
       </div>
     </div>
   </div>

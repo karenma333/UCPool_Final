@@ -3,6 +3,8 @@
   <div class="span12">
   <img class="profile-picture img-circle" ng-show="user" ng-src="https://graph.facebook.com/{{user.id}}/picture?height=400&width=400">
   <h4>{{user.name}}</h4>
-  <a class="btn btn-info" ng-click="logout()">Logout <i class="fa fa-sign-out"></i></a>
+  <a class="btn btn-info" ng-click="logout()" ng-style="{'margin-top': user ? '' : '213px'}">
+    Logout <i class="fa fa-sign-out"></i>
+  </a>
   </div>
 </div>

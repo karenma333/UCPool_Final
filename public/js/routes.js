@@ -25,6 +25,10 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       templateUrl: './partials/profile.html',
       controller: 'profileController'
     })
+    .when('/rides', {
+      templateUrl: './partials/rides.html',
+      controller: 'ridesController'
+    })
     .when('/404', {
       templateUrl: './partials/404.html'
     })

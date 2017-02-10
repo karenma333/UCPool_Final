@@ -17,6 +17,7 @@
   <script src="controllers/eventDriveController.js"></script>
   <script src="controllers/registerController.js"></script>
   <script src="controllers/profileController.js"></script>
+  <script src="controllers/ridesController.js"></script>
 
   <!--Bootstrap & Styles-->
   <!-- Latest compiled and minified CSS -->
@@ -48,14 +49,18 @@
   </div>
   <div class="navbar navbar-app navbar-absolute-bottom" ng-hide="hideNavBar">
     <div class="btn-group justified">
-      <a ng-href="/home" class="btn btn-navbar">
+      <a ng-href="/home" ng-class="{active: (window.location.pathname === '/home')}" class="btn btn-navbar">
         <i class="fa fa-calendar-o fa-navbar"></i> Events
       </a>
-      <a href="#" class="btn btn-navbar"><i class="fa fa-car fa-navbar"></i> Rides</a>
+      <a ng-href="/rides" ng-class="{active: (window.location.pathname === '/rides')}" class="btn btn-navbar"><i class="fa fa-car fa-navbar"></i> Rides</a>
       <a ng-href="/profile" class="btn btn-navbar"><i class="fa fa-user-o fa-navbar"></i> Profile</a>
     </div>
   </div>
-  <ng-view autoscroll="true"></ng-view>
+  <div class="scrollable">
+    <div class="scrollable-content">
+      <ng-view autoscroll="true"></ng-view>
+    </div>
+  </div>
 </div>
 </body>
 </html>

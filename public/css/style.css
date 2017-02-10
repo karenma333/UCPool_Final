@@ -17,12 +17,20 @@
 }
 
 body {
-  padding: 50px 10px;
+  padding: 50px 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+ng-view {
+  padding: 60px 0;
+}
+
+.navbar-absolute-bottom .btn-group a.active { /* selected navBar tab */
+  background: #cfcfce;
 }
 
 .profile-picture{
@@ -35,4 +43,8 @@ a {
 
 #fb-button i {
   margin-right: 5px;
+}
+
+.event {
+  margin: 10px;
 }
