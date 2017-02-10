@@ -3,7 +3,8 @@ angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {
       templateUrl:  isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
-      controller: 'homeController'
+      controller: 'homeController',
+      unauthenticated: true
     })
     .when('/event/:id/ride', {
       templateUrl: './partials/eventRide.html',
@@ -15,11 +16,15 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     })
     .when('/register', {
       templateUrl: './partials/register.html',
-      controller: 'registerController'
+      controller: 'registerController',
+      hideNavBar: true,
+      unauthenticated: true
     })
     .when('/register/confirmation', {
       templateUrl: './partials/register.html',
-      controller: 'registerController'
+      controller: 'registerController',
+      hideNavBar: true,
+      unauthenticated: true
     })
     .when('/profile', {
       templateUrl: './partials/profile.html',
@@ -30,7 +35,9 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       controller: 'ridesController'
     })
     .when('/404', {
-      templateUrl: './partials/404.html'
+      templateUrl: './partials/404.html',
+      hideNavBar: true,
+      unauthenticated: true
     })
     .when('/', {
       redirectTo: 'home'
@@ -41,6 +48,16 @@ angularApp.config(function ($routeProvider, $locationProvider) {
 
   $locationProvider.html5Mode(true);
 })
-  .run(function ($rootScope) {
+  .run(function ($rootScope, $location) {
     $rootScope.isLoggedIn = isLoggedIn;
+    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+      if (next.$$route.redirectTo) {
+        return;
+      }
+      if (!next.$$route.unauthenticated && !isLoggedIn()) {
+        $location.path('/404');
+        return;
+      }
+      $rootScope.hideNavBar = next.$$route.hideNavBar;
+    });
   });
