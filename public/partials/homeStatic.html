@@ -1,8 +1,7 @@
-<h1>This is the static home info page</h1>
-<div class="row">
-  <div class="col-md-4">
-    <button id="fb-button" ng-disabled="submitting" class="btn btn-primary btn-large btn-block"
-            ng-click="fbLogin()"><i class="fa fa-facebook-f"></i> Continue with Facebook</button>
-  </div>
+<div class="mdl-typography--text-center">
+  <h3>This is the static home info page</h3>
+  <button id="fb-button" ng-disabled="submitting"
+          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
+          ng-click="fbLogin()"><i class="fa fa-facebook-f"></i> Continue with Facebook</button>
   <p class="text-danger">{{error}}</p>
 </div>

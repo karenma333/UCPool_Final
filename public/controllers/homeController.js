@@ -10,6 +10,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         if (response.authResponse.grantedScopes.split(',').length !== 2) {
           $scope.$apply(function () {
             $scope.error = 'This app needs permissions to your Facebook events to work.';
+            $scope.submitting = false;
           });
           return;
         }
@@ -43,6 +44,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
 
   $scope.events = [
     {
+      id: 1000,
       title: 'Event 1',
       description: 'Description...',
       location: '123 Stanford St.',
@@ -50,6 +52,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       time: '7:30 PM'
     },
     {
+      id: 1001,
       title: 'Event 2',
       description: 'Description...',
       location: '123 Stanford St.',
@@ -57,6 +60,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       time: '7:30 PM'
     },
     {
+      id: 1002,
       title: 'Event 3',
       description: 'Description...',
       location: '123 Stanford St.',
@@ -64,6 +68,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       time: '7:30 PM'
     },
     {
+      id: 1003,
       title: 'Event 4',
       description: 'Description...',
       location: '123 Stanford St.',
@@ -71,6 +76,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       time: '7:30 PM'
     },
     {
+      id: 1004,
       title: 'Event 5',
       description: 'Description...',
       location: '123 Stanford St.',

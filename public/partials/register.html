@@ -1,22 +1,26 @@
-<h1>This is the register page.</h1>
+<div class="mdl-typography--text-center">
+  <h3>Register for UC Pool</h3>
 
-<div ng-hide="registered">
-  <form id="register_form" ng-submit="register()" accept-charset="UTF-8">
-    <div class="form-group">
-      <label>UCSD Email</label>
-      <input class="form-control" type="text" ng-model="email" required />
-      <h6 class="text-danger">{{emailError(email)}}</h6>
-    </div>
-    <div class="form-group">
-      <input type="submit" ng-disabled="submitting" id="register_button" name="commit" value="Register" class="btn btn-lg btn-default sign-up" />
-    </div>
-  </form>
-  <p class="text-danger">{{error}}</p>
-</div>
+  <div ng-hide="registered">
+    <form id="register_form" ng-submit="register()" accept-charset="UTF-8">
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="email" ng-model="email">
+        <label class="mdl-textfield__label" for="email">UCSD Email</label>
+        <span class="error">{{emailError(email)}}</span>
+      </div>
+      <button type="submit" ng-disabled="submitting" id="register_button" class="mdl-button mdl-js-button mdl-js-ripple-effect">
+        Register
+      </button>
+    </form>
+    <p class="text-danger">{{error}}</p>
+  </div>
 
-<div ng-show="registered">
-  <h4>Great! Just one more thing. Please verify your email.</h4>
-  <h6>We've sent you a confirmation link to your UCSD email. Please follow that link.</h6>
-  <button ng-disabled="submitting" class="btn btn-default" ng-click="resendConfirmation()">Resend confirmation</button>
-  <h6>{{status}}</h6>
+  <div ng-show="registered">
+    <h5>Great! Just one more thing. Please verify your email.</h5>
+    <p>We've sent you a confirmation link to your UCSD email. Please follow that link.</p>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" ng-disabled="submitting" ng-click="resendConfirmation()">
+      Resend Confirmation
+    </button>
+    <h6>{{status}}</h6>
+  </div>
 </div>

@@ -1,3 +1,31 @@
+@font-face {
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-content {
+  padding-bottom: 60px;
+}
+
+.bottom-nav-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 10;
+  background: white;
+  display: inline-flex;
+}
+
+.bottom-nav-bar a {
+  margin: auto auto;
+  text-decoration: none;
+}
+
+.bottom-nav-bar a div * {
+  margin: auto 0;
+}
+
 .btn-xl {
   padding: 18px 28px;
   font-size: 24px;
@@ -16,11 +44,6 @@
   margin-top: 30px;
 }
 
-body {
-  padding: 50px 0;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
 a {
   color: #00B7FF;
 }
@@ -29,9 +52,19 @@ ng-view {
   padding: 60px 0;
 }
 
-.navbar-absolute-bottom .btn-group a.active { /* selected navBar tab */
-  background: #cfcfce;
-}
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.md-dark { color: rgba(0, 0, 0, 0.54); }
+.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.md-light { color: rgba(255, 255, 255, 1); }
+.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
 
 .profile-picture{
   border-radius: 50%;
@@ -45,6 +78,30 @@ ng-view {
   margin-right: 5px;
 }
 
+.mdl-textfield .error, .mdl-js-textfield .error {
+  color: #d50000;
+  position: absolute;
+  font-size: 12px;
+  margin-top: 3px;
+  display: block;
+}
+
+.event .mdl-card {
+  width: 100%;
+  max-width: 512px;
+  margin: 0 auto;
+}
+
 .event {
-  margin: 10px;
+  margin-bottom: 30px;
+}
+
+.event .mdl-card > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url("/images/welcome_card.jpg") center / cover;
+}
+
+.event .mdl-card p i {
+  vertical-align: middle;
 }

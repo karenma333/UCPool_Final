@@ -1,4 +1,4 @@
-var angularApp = angular.module('UCPool', ['ngRoute', 'mobile-angular-ui']);
+var angularApp = angular.module('UCPool', ['ngRoute']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {
@@ -48,7 +48,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
 
   $locationProvider.html5Mode(true);
 })
-  .run(function ($rootScope, $location) {
+  .run(function ($rootScope, $location, $timeout) {
     $rootScope.isLoggedIn = isLoggedIn;
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
       if (next.$$route.redirectTo) {
@@ -59,5 +59,17 @@ angularApp.config(function ($routeProvider, $locationProvider) {
         return;
       }
       $rootScope.hideNavBar = next.$$route.hideNavBar;
+    });
+
+    $rootScope.$on('$routeChangeSuccess', function () {
+      $rootScope.eventsRoute = window.location.pathname === "/home";
+      $rootScope.ridesRoute = window.location.pathname === "/rides";
+      $rootScope.profileRoute = window.location.pathname === "/profile";
+    });
+
+    $rootScope.$on('$viewContentLoaded', ()=> {
+      $timeout(() => {
+        componentHandler.upgradeAllRegistered();
+      })
     });
   });
