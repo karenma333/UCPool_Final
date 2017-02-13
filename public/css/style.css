@@ -2,28 +2,12 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.page-content {
-  padding-bottom: 60px;
-}
-
-.bottom-nav-bar {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  z-index: 10;
-  background: white;
-  display: inline-flex;
-}
-
-.bottom-nav-bar a {
-  margin: auto auto;
+.mdl-navigation a {
   text-decoration: none;
 }
 
-.bottom-nav-bar a div * {
-  margin: auto 0;
+.mdl-navigation a.is-active {
+  background-color: #e0e0e0;
 }
 
 .btn-xl {
@@ -96,6 +80,10 @@ ng-view {
   margin-bottom: 30px;
 }
 
+.event .mdl-card > .mdl-card__menu {
+  color: #fff;
+}
+
 .event .mdl-card > .mdl-card__title {
   color: #fff;
   height: 176px;
@@ -104,4 +92,9 @@ ng-view {
 
 .event .mdl-card p i {
   vertical-align: middle;
+}
+
+.events-spinner {
+  display: table;
+  margin: auto auto;
 }

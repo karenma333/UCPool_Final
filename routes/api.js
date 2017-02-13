@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const events = require('./events');
 const config = require('../config');
 const User = require('../models/User');
 const RefreshToken = require('../models/RefreshToken');
@@ -10,6 +11,7 @@ const two_weeks_millis = 14 * 24 * 3600000;
 const webHook = require('./webHook');
 
 router.use('/webhook', webHook);
+router.use('/events', events);
 
 /**
  * GET: /api/me

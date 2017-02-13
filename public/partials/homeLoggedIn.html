@@ -1,13 +1,15 @@
 <h4 style="margin-left: 20px;">Upcoming Events</h4>
 <hr>
 <div class="container">
+  <!--Spinner while projects are being loaded-->
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}"></div>
+
   <div ng-repeat="event in events" class="event">
     <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">{{event.title}}</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        <p>{{event.description}}</p>
         <p><i class="material-icons md-18">location_on</i> {{event.location}}</p>
         <p><i class="material-icons md-18">date_range</i> {{event.date}}</p>
         <p><i class="material-icons md-18">access_time</i> {{event.time}}</p>
@@ -23,6 +25,11 @@
             I'm driving
           </div>
         </a>
+      </div>
+      <div class="mdl-card__menu">
+        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+          <i class="material-icons">close</i>
+        </button>
       </div>
     </div>
   </div>

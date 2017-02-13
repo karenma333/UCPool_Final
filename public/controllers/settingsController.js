@@ -1,4 +1,4 @@
-angularApp.controller('profileController', function ($scope, $http) {
+angularApp.controller('settingsController', function ($scope, $http) {
   $scope.logout = function () {
     FB.logout();
     $http.post('/api/logout', null)

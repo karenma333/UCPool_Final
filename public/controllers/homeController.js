@@ -42,46 +42,10 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  $scope.events = [
-    {
-      id: 1000,
-      title: 'Event 1',
-      description: 'Description...',
-      location: '123 Stanford St.',
-      date: 'Friday, 10 Feb 2017',
-      time: '7:30 PM'
-    },
-    {
-      id: 1001,
-      title: 'Event 2',
-      description: 'Description...',
-      location: '123 Stanford St.',
-      date: 'Friday, 10 Feb 2017',
-      time: '7:30 PM'
-    },
-    {
-      id: 1002,
-      title: 'Event 3',
-      description: 'Description...',
-      location: '123 Stanford St.',
-      date: 'Friday, 10 Feb 2017',
-      time: '7:30 PM'
-    },
-    {
-      id: 1003,
-      title: 'Event 4',
-      description: 'Description...',
-      location: '123 Stanford St.',
-      date: 'Friday, 10 Feb 2017',
-      time: '7:30 PM'
-    },
-    {
-      id: 1004,
-      title: 'Event 5',
-      description: 'Description...',
-      location: '123 Stanford St.',
-      date: 'Friday, 10 Feb 2017',
-      time: '7:30 PM'
-    }
-  ];
+  $http.get('/api/events/all')
+    .then(function success(response) {
+      $scope.events = response.data;
+    }, function failure(response) {
+      // TODO
+    });
 });
