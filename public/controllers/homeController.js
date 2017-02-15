@@ -1,4 +1,4 @@
-angularApp.controller('homeController', function($scope, $http, $rootScope, $location, $window) {
+angularApp.controller('homeController', function($scope, $http, $rootScope, $location, $window, $animate) {
   if (!isLoggedIn()) {
     $rootScope.hideNavBar = true;
   }
@@ -50,8 +50,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     });
 
   $scope.dismissEvent = function (event) {
-    // TODO Animate card swiping to the right and fading away
-    // TODO Animate other cards pulling up
+    var index = $scope.events.indexOf(event);
+    $scope.events.splice(index, 1);
     var snackbarContainer = document.querySelector('#events-snackbar');
     var timeout = 2500;
     var undo = false;
@@ -60,7 +60,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       timeout: timeout,
       actionHandler: function () {
         undo = true;
-        // TODO animate back
+        $scope.events.splice(index, 0, event);
+        $scope.$apply();
       },
       actionText: 'Undo'
     });
@@ -69,9 +70,6 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       if (undo) {
         return;
       }
-
-      $scope.events.splice($scope.events.indexOf(event) , 1);
-      $scope.$apply();
       // TODO update event on server
     }, timeout + 500);
   };

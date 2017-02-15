@@ -1,4 +1,4 @@
-var angularApp = angular.module('UCPool', ['ngRoute']);
+var angularApp = angular.module('UCPool', ['ngRoute', 'ngAnimate']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {

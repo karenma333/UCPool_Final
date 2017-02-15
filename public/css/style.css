@@ -99,3 +99,30 @@ ng-view {
   display: table;
   margin: auto auto;
 }
+
+
+.event.ng-enter,
+.event.ng-leave
+{
+  -webkit-transition: 250ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+  -moz-transition: 250ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+  -ms-transition: 250ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+  -o-transition: 250ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+  transition: 250ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+  position: relative;
+  display: block;
+}
+
+.event.ng-enter.ng-enter-active,
+.event.ng-leave {
+  opacity: 1;
+  right: 0;
+  height: 365px;
+}
+
+.event.ng-leave.ng-leave-active,
+.event.ng-enter {
+  opacity: 0;
+  right: -50px;
+  height: 0;
+}
