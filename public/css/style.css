@@ -117,7 +117,7 @@ ng-view {
 .event.ng-leave {
   opacity: 1;
   right: 0;
-  height: 365px;
+  height: 370px;
 }
 
 .event.ng-leave.ng-leave-active,

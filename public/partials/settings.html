@@ -1,10 +1,12 @@
 <!--Facebook Picture-->
 <div class="container text-center">
   <div class="span12">
-  <img class="profile-picture img-circle" ng-show="user" ng-src="https://graph.facebook.com/{{user.id}}/picture?height=400&width=400">
-  <h4>{{user.name}}</h4>
-  <a class="btn btn-info" ng-click="logout()" ng-style="{'margin-top': user ? '' : '213px'}">
-    Logout <i class="fa fa-sign-out"></i>
-  </a>
+    <img class="profile-picture img-circle" ng-show="user" ng-src="https://graph.facebook.com/{{user.id}}/picture?height=400&width=400">
+    <h4>{{user.name}}</h4>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+            ng-click="logout()"
+            ng-style="{'margin-top': user ? '' : '224px'}">
+      Logout <i class="material-icons md-18">exit_to_app</i>
+    </button>
   </div>
 </div>

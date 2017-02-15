@@ -2,7 +2,7 @@
 <hr>
 <div class="container">
   <!--Spinner while projects are being loaded-->
-  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}"></div>
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}" ng-hide="events"></div>
 
   <div class="mdl-grid">
     <div ng-repeat="event in events"
@@ -17,7 +17,7 @@
           <p><i class="material-icons md-18">access_time</i> {{event.time}}</p>
         </div>
         <div class="mdl-card__actions mdl-card--border">
-          <a ng-href="#">
+          <a ng-href="#" ng-click="getRide(event)">
             <div class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               I need a ride
             </div>

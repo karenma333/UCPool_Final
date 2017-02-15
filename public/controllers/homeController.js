@@ -59,6 +59,9 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       message: event.title + ' dismissed',
       timeout: timeout,
       actionHandler: function () {
+        if (undo) {
+          return;
+        }
         undo = true;
         $scope.events.splice(index, 0, event);
         $scope.$apply();
@@ -72,5 +75,9 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       }
       // TODO update event on server
     }, timeout + 500);
+  };
+
+  $scope.getRide = function (event) {
+
   };
 });
