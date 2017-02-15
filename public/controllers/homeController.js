@@ -48,4 +48,31 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     }, function failure(response) {
       // TODO
     });
+
+  $scope.dismissEvent = function (event) {
+    // TODO Animate card swiping to the right and fading away
+    // TODO Animate other cards pulling up
+    var snackbarContainer = document.querySelector('#events-snackbar');
+    var timeout = 2500;
+    var undo = false;
+    snackbarContainer.MaterialSnackbar.showSnackbar({
+      message: event.title + ' dismissed',
+      timeout: timeout,
+      actionHandler: function () {
+        undo = true;
+        // TODO animate back
+      },
+      actionText: 'Undo'
+    });
+
+    setTimeout(function () {
+      if (undo) {
+        return;
+      }
+
+      $scope.events.splice($scope.events.indexOf(event) , 1);
+      $scope.$apply();
+      // TODO update event on server
+    }, timeout + 500);
+  };
 });

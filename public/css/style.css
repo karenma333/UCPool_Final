@@ -87,6 +87,7 @@ ng-view {
 .event .mdl-card > .mdl-card__title {
   color: #fff;
   height: 176px;
+  /*noinspection CssUnknownTarget*/
   background: url("/images/welcome_card.jpg") center / cover;
 }
 

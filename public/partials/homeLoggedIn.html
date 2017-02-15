@@ -27,10 +27,15 @@
         </a>
       </div>
       <div class="mdl-card__menu">
-        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="dismissEvent(event)">
           <i class="material-icons">close</i>
         </button>
       </div>
     </div>
   </div>
+</div>
+
+<div id="events-snackbar" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
 </div>
