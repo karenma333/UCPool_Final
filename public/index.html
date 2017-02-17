@@ -86,22 +86,20 @@
 
 <!-- Modals -->
 <div class="modal fade" id="eventsRideModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog mdl-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-body">
-        <h4>Pick up location:</h4>
+      <h4 class="mdl-dialog__title">Pick up location:</h4>
+      <div class="mdl-dialog__content">
         <form>
           <div class="mdl-textfield mdl-js-textfield">
-            <input class="mdl-textfield__input" placeholder="Enter a pick up location" type="text" id="autoComplete"/>
-            <label class="mdl-textfield__label" for="autoComplete">Enter a pick up location</label>
-          </div>
-          <div class="modal-footer" style="padding: 0;">
-            <a data-dismiss="modal">
-              <div class="mdl-button mdl-js-button mdl-js-ripple-effect" style="text-decoration: none">Cancel</div>
-            </a>
-            <button type="submit" class="mdl-button mdl-button mdl-js-button mdl-js-ripple-effect">Submit</button>
+            <input class="mdl-textfield__input" placeholder="Enter a pick up location" type="text" id="autoCompleteRide"/>
+            <label class="mdl-textfield__label" for="autoCompleteRide">Enter a pick up location</label>
           </div>
         </form>
+      </div>
+      <div class="mdl-dialog__actions">
+        <button type="button" class="submit-btn mdl-button mdl-js-button mdl-js-ripple-effect">Submit</button>
+        <button type="button" class="cancel-btn mdl-button mdl-js-button mdl-js-ripple-effect">Cancel</button>
       </div>
     </div>
   </div>
