@@ -1,42 +1,42 @@
 [
   {
     "id": 1000,
-    "title": "Event 1",
-    "description": "Description...",
-    "location": "123 Stanford St.",
-    "date": "Friday, 10 Feb 2017",
+    "title": "Dine with a Professor",
+    "description": "Come meet your professor and enjoy a meal, courtesy of UCSD",
+    "location": "Faculty Club UCSD",
+    "date": "Friday, 17 Feb 2017",
     "time": "7:30 PM"
   },
   {
     "id": 1001,
-    "title": "Event 2",
-    "description": "Description...",
-    "location": "123 Stanford St.",
-    "date": "Friday, 10 Feb 2017",
-    "time": "7:30 PM"
+    "title": "Board Game Night",
+    "description": "From Avalon to Catan, there is a boardgame for you!",
+    "location": "La Regencia, Apt 2213",
+    "date": "Sunday, 19 Feb 2017",
+    "time": "9:30 PM"
   },
   {
     "id": 1002,
-    "title": "Event 3",
-    "description": "Description...",
+    "title": "Wine Wednesday",
+    "description": "Come to a wine tasting for just $20",
     "location": "123 Stanford St.",
-    "date": "Friday, 10 Feb 2017",
-    "time": "7:30 PM"
+    "date": "Saturday, 18 Feb 2017",
+    "time": "7:30 AM"
   },
   {
     "id": 1003,
-    "title": "Event 4",
-    "description": "Description...",
-    "location": "123 Stanford St.",
-    "date": "Friday, 10 Feb 2017",
-    "time": "7:30 PM"
+    "title": "Potato Chip Hike",
+    "description": "Come see the famed potato chip hike with a bunch of avid hikers!",
+    "location": "Potato Chip Rock Parking Lot",
+    "date": "Tuesday, 21 Feb 2017",
+    "time": "10:30 AM"
   },
   {
     "id": 1004,
-    "title": "Event 5",
-    "description": "Description...",
-    "location": "123 Stanford St.",
-    "date": "Friday, 10 Feb 2017",
-    "time": "7:30 PM"
+    "title": "Beach Day",
+    "description": "Isn't the weather lovely? Let's go visit the beach and play some volleyball!",
+    "location": "La Jolla Shores",
+    "date": "Saturday, 18 Feb 2017",
+    "time": "12:30 PM"
   }
 ]
