@@ -1,10 +1,10 @@
-var placeSearch, autocomplete;
+var placeSearch, autoCompleteRide;
 function initAutoComplete() {
-  // Create the autocomplete object, restricting the search to geographical
+  // Create the autoCompleteRide object, restricting the search to geographical
   // location types.
   function init() {
-    autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('autoComplete'),
+    autoCompleteRide = new google.maps.places.Autocomplete(
+      document.getElementById('autoCompleteRide'),
       {types: ['address']});
   }
   if (document.readyState === "complete") {

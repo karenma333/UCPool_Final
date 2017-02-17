@@ -49,59 +49,67 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       // TODO
     });
 
-  $scope.dismissEvent = function (event) {
-    var index = $scope.events.indexOf(event);
-    $scope.events.splice(index, 1);
+  function showSnackBar(message, undoHandler, onTimeout) {
     var snackbarContainer = document.querySelector('#events-snackbar');
     var timeout = 2500;
     var undo = false;
-    snackbarContainer.MaterialSnackbar.showSnackbar({
-      message: event.title + ' dismissed',
-      timeout: timeout,
-      actionHandler: function () {
-        if (undo) {
+    let options = {
+      message: message,
+      timeout: timeout
+    };
+    if (undoHandler) {
+      options.actionText = 'Undo';
+      options.actionHandler = function () {
+        if (undo)
           return;
-        }
-        undo = true;
-        $scope.events.splice(index, 0, event);
-        $scope.$apply();
-      },
-      actionText: 'Undo'
-    });
 
+        undo = true;
+        undoHandler();
+      }
+    }
+    snackbarContainer.MaterialSnackbar.showSnackbar(options);
     setTimeout(function () {
       if (undo) {
         return;
       }
-      // TODO update event on server
+      if (onTimeout) {
+        onTimeout();
+      }
     }, timeout + 500);
+  }
+
+  $scope.dismissEvent = function (event) {
+    var index = $scope.events.indexOf(event);
+    $scope.events.splice(index, 1);
+    showSnackBar(event.title + ' dismissed', function undoHandler() {
+      $scope.events.splice(index, 0, event);
+      $scope.$apply();
+    }, function onTimeout() {
+      // TODO update event on server
+    });
   };
 
   var bound = false;
   function bindAutoComplete() {
-    autocomplete.addListener('place_changed', function () {
-      let place = autocomplete.getPlace();
+    autoCompleteRide.addListener('place_changed', function () {
+      let place = autoCompleteRide.getPlace();
       if (place.place_id)
         $scope.place = place;
     });
     bound = true;
   }
-  if (autocomplete) {
+  if (autoCompleteRide) {
     bindAutoComplete();
   }
 
   var modal = $('#eventsRideModal');
   var currentEvent = null;
   $scope.getRide = function (event) {
-    if (!bound && !autocomplete) {
-      var snackbarContainer = document.querySelector('#events-snackbar');
-      snackbarContainer.MaterialSnackbar.showSnackbar({
-        message: 'Please wait',
-        timeout: 2500
-      });
+    if (!bound && !autoCompleteRide) {
+      showSnackBar('Please wait');
       return;
     }
-    if (!bound && autocomplete) {
+    if (!bound && autoCompleteRide) {
       bindAutoComplete();
     }
 
@@ -110,12 +118,28 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     currentEvent = event;
   };
 
-  modal.find('form').submit(function (e) {
+  var modalForm = modal.find('form');
+  modal.find('.submit-btn').click(function () {
+    modalForm.submit();
+  });
+  modal.find('.cancel-btn').click(function () {
+    modal.modal('toggle');
+  });
+  modalForm.submit(function (e) {
     e.preventDefault();
     if ($scope.place) {
       console.log('Successfully selected place:', $scope.place, ' for event ', currentEvent);
-      // TODO
       modal.modal('toggle');
+      var event = currentEvent;
+      var index = $scope.events.indexOf(event);
+      $scope.events.splice(index, 1);
+      $scope.$apply();
+      showSnackBar('We will look for rides', function undoHandler() {
+        $scope.events.splice(index, 0, event);
+        $scope.$apply();
+      }, function onTimeout() {
+        // TODO submit request to server to fix a ride
+      });
     }
   });
   modal.on('hidden.bs.modal', function () {
