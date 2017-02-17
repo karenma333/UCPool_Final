@@ -1,9 +1,9 @@
 [
   {
     "id": 1000,
-    "title": "Dine with a Professor",
-    "description": "Come meet your professor and enjoy a meal, courtesy of UCSD",
-    "location": "Faculty Club UCSD",
+    "title": "Bonfire Night",
+    "description": "Come join us for a bonfire by the beach, bring something to share!",
+    "location": "La Jolla Shores",
     "date": "Friday, 17 Feb 2017",
     "time": "7:30 PM"
   },
@@ -34,7 +34,7 @@
   {
     "id": 1004,
     "title": "Beach Day",
-    "description": "Isn't the weather lovely? Let's go visit the beach and play some volleyball!",
+    "description": "Isn't the weather lovely? Let's go visit the beach and play some volleyball",
     "location": "La Jolla Shores",
     "date": "Saturday, 18 Feb 2017",
     "time": "12:30 PM"
