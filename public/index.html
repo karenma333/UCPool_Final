@@ -23,7 +23,9 @@
   <script src="js/routes.js"></script>
 
   <!--Google Places-->
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCubpwSNCJWh0hG4Wslzg5GbAJg7-_lUB0&libraries=places"></script>
+  <script type="text/javascript" src="js/googleMapsSDK.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCubpwSNCJWh0hG4Wslzg5GbAJg7-_lUB0&libraries=places&callback=initAutoComplete"
+          async defer></script>
 
   <!--Controllers-->
   <script src="controllers/homeController.js"></script>
@@ -80,7 +82,29 @@
 
   <ng-view ng-if="hideNavBar" autoscroll="true"></ng-view>
 </div>
+</div>
 
+<!-- Modals -->
+<div class="modal fade" id="eventsRideModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Pick up location:</h4>
+        <form>
+          <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" placeholder="Enter a pick up location" type="text" id="autoComplete"/>
+            <label class="mdl-textfield__label" for="autoComplete">Enter a pick up location</label>
+          </div>
+          <div class="modal-footer" style="padding: 0;">
+            <a data-dismiss="modal">
+              <div class="mdl-button mdl-js-button mdl-js-ripple-effect" style="text-decoration: none">Cancel</div>
+            </a>
+            <button type="submit" class="mdl-button mdl-button mdl-js-button mdl-js-ripple-effect">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>
