@@ -1,1 +1,31 @@
-<h1>This is the Rides page</h1>
+<!--TEMP code --><!-- temp history page -->
+<hr>
+<div class="container">
+  <!--Spinner while projects are being loaded-->
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}" ng-hide="events"></div>
+
+  <div class="mdl-grid">
+    <div ng-repeat="event in events"
+         class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
+      <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">{{event.title}}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <p><i class="material-icons md-18">location_on</i> {{event.location}}</p>
+          <p><i class="material-icons md-18">date_range</i> {{event.date}}</p>
+          <p><i class="material-icons md-18">access_time</i> {{event.time}}</p>
+        </div>
+        <div class="mdl-card__supporting-text">
+        	<p>Driver information: Dan Johnson</p>
+        	<p> Phone Number: 823-234-1132</p>
+        	<p> No other passengers </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="events-snackbar" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>

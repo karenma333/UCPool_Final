@@ -11,8 +11,10 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       controller: 'eventRideController'
     })
     .when('/event/:id/drive', {
-      templateUrl: './partials/eventDrive.html',
-      controller: 'eventDriveController'
+      templateUrl: './partials/eventRide.html',
+      controller: 'eventRideController'
+      //templateUrl: './partials/eventDrive.html',
+      //controller: 'eventDriveController'
     })
     .when('/register', {
       templateUrl: './partials/register.html',
