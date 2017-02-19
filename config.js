@@ -3,9 +3,9 @@ module.exports = {
   dbUrl: 'mongodb://mainUser:Blah1234@ds141209.mlab.com:41209/ucpooldb',
   mailGunConfig: {
     apiKey: 'key-9943d2b4426c0b7001c2deeb55f688a0',
-    domain: 'app3bffd131e5fd45e8907ff180b6fe8b3a.mailgun.org'
+    domain: 'mg.ucpool.com'
   },
-  hostUrl: 'http://ucpool.herokuapp.com/',
+  hostUrl: 'http://www.ucpool.com/',
   facebookVerifyToken: 'what_D0es_dA_f0X_s@y',
   facebookAppId: '1864192320465862',
   facebookAppSecret: 'daec42ecc7df1196458b0dc3f8f4683a',

@@ -6,16 +6,6 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       controller: 'homeController',
       unauthenticated: true
     })
-    .when('/event/:id/ride', {
-      templateUrl: './partials/eventRide.html',
-      controller: 'eventRideController'
-    })
-    .when('/event/:id/drive', {
-      templateUrl: './partials/eventRide.html',
-      controller: 'eventRideController'
-      //templateUrl: './partials/eventDrive.html',
-      //controller: 'eventDriveController'
-    })
     .when('/register', {
       templateUrl: './partials/register.html',
       controller: 'registerController',

@@ -93,7 +93,7 @@ router.post('/login', (req, res) => {
             config.secret, {expiresIn: '5m', issuer: user.id});
 
           res.cookie('Authorization', token, {maxAge: two_weeks_millis, signed: true, httpOnly: false});
-          res.sendStatus(200);;
+          res.sendStatus(200);
         });
       });
     });
