@@ -1,10 +1,45 @@
-<!--TEMP code --><!-- temp rides page -->
+<h3> Matched Rides</h3>
 <hr>
+<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+      <a href="#drive-panel" class="mdl-tabs__tab is-active">I'm Driving</a>
+      <a href="#ride-panel" class="mdl-tabs__tab">I'm Riding</a>
+  </div>
+
+  <div class="mdl-tabs__panel is-active" id="drive-panel">
+
+  </div>
+  <div class="mdl-tabs__panel" id="ride-panel">
+
+  </div>
+
+</div>
 <div class="container">
   <!--Spinner while projects are being loaded-->
   <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}" ng-hide="events"></div>
+<!-- Three Line List with secondary info and action -->
+<style>
+.demo-list-three {
+  width: 650px;
+}
+</style>
 
-  <div class="mdl-grid">
+<ul class="mdl-list">
+  <li ng-repeat= "event in events" class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
+    <h2>{{event.title}}</h2>
+    <span class="mdl-list__item-primary-content">
+      <i class="material-icons mdl-list__item-avatar">person</i>
+      <span class="mdl-list__item-text-body">
+        Contact Information <!--connect json data-->
+      </span>
+    </span>
+    <span class="mdl-list__item-secondary-content">
+      <!--confirm ride button or ride confirmed text-->
+      <a class="mdl-list__item-secondary-action" href="#"><i class="material-icons">star</i></a>
+    </span>
+  </li>
+</ul>
+ <!-- <div class="mdl-grid">
     <div ng-repeat="event in events"
          class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
       <div class="mdl-card mdl-shadow--2dp">
@@ -24,6 +59,7 @@
     </div>
   </div>
 </div>
+-->
 
 <div id="events-snackbar" class="mdl-js-snackbar mdl-snackbar">
   <div class="mdl-snackbar__text"></div>
