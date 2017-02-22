@@ -147,4 +147,51 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     modal.find('input').val('');
     currentEvent = null;
   });
+
+  /**!!!!!**/
+
+  var modalDrive = $('#eventsDriveModal');
+  var currentEventDrive = null;
+  $scope.giveRide = function (event) {
+    if (!bound && !autoCompleteRide) {
+      showSnackBar('Please wait');
+      return;
+    }
+    if (!bound && autoCompleteRide) {
+      bindAutoComplete();
+    }
+
+    modalDrive.modal('show');
+    modalDrive.find('input').focus();
+    currentEventDrive = event;
+  };
+
+  var modalFormDrive = modalDrive.find('form');
+  modalDrive.find('.submit-btn').click(function () {
+    modalFormDrive.submit();
+  });
+  modalDrive.find('.cancel-btn').click(function () {
+    modalDrive.modal('toggle');
+  });
+  modalFormDrive.submit(function (e) {
+    e.preventDefault();
+      //TODO implement Google maps suggestions list
+      console.log('Successfully selected place:', $scope.place, ' for event ', currentEventDrive);
+      modalDrive.modal('toggle');
+      var eventDrive = currentEventDrive;
+      var indexDrive = $scope.events.indexOf(eventDrive);
+      $scope.events.splice(indexDrive, 1);
+      $scope.$apply();
+      showSnackBar('We will look for rides', function undoHandler() {
+        $scope.events.splice(indexDrive, 0, eventDrive);
+        $scope.$apply();
+      }, function onTimeout() {
+        // TODO submit request to server to fix a ride
+      });
+  });
+  modalDrive.on('hidden.bs.modal', function () {
+    $scope.place = undefined;
+    modalDrive.find('input').val('');
+    currentEventDrive = null;
+  });
 });
