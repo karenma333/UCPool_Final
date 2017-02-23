@@ -4,6 +4,7 @@ const config = require('../config');
 const mailComposer = require('mailcomposer');
 const mailGun = require('mailgun-js')(config.mailGunConfig);
 const FB = require('fb');
+const Event = require('../models/Event');
 
 const jade = require('jade');
 const fs = require('fs');
@@ -18,7 +19,8 @@ const userSchema = new mongoose.Schema({
   email: String,
   facebookId: String,
   facebookToken: String,
-  verified: {type: Boolean, default: false}
+  verified: {type: Boolean, default: false},
+  events: [{eventId: mongoose.Schema.Types.ObjectId, fbEventId: String, dismissed: Boolean}]
 });
 
 
@@ -87,6 +89,54 @@ userSchema.statics.register = function (user, next) {
     }
     user.save((err, usr) => next(err, usr));
   })
+};
+
+
+userSchema.methods.fetchFacebookEvents = function () {
+  let user = this;
+  let fb = new FB.Facebook();
+  fb.setAccessToken(user.facebookToken);
+  fb.api('/' + user.facebookId + '/events', function (fbRes) {
+    if (!fbRes || fbRes.error || !fbRes.data) {
+      return;
+    }
+    let now = (new Date()).getTime();
+    let finalEvents = [];
+    fbRes.data.forEach(event => {
+      if ((new Date(event.start_time)).getTime() <= now || !event.place) // Past events or event without location
+        return;
+      finalEvents.push(event);
+    });
+
+    // New events added
+    finalEvents.forEach(fbEvent => {
+      let exists = false;
+      for (let i = 0; i < user.events.length; i++) {
+        if (user.events[i].fbEventId === fbEvent.id) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        // New Event for the user
+        Event.registerParticipant(user, fbEvent, () => {});
+      }
+    });
+
+    user.events.forEach(userEvent => {
+      let exists = false;
+      for (let i = 0; i < fbRes.data.length; i++) {
+        if (userEvent.fbEventId == fbRes.data[i].id) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        // User selected 'Not Going' on facebook
+        Event.decoupleUser(user, userEvent.eventId, (err) => {});
+      }
+    });
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);
