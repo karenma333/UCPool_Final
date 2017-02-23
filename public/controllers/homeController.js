@@ -102,7 +102,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     autoCompleteDrive.addListener('place_changed', function () {
       var placeDrive = autoCompleteDrive.getPlace();
       if (placeDrive.place.id)
-        $scope.placeDrive = placeDrive;
+        $scope.placeHistory = placeDrive;
     });
     bound = true;
   }
@@ -183,7 +183,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   });
   modalFormDrive.submit(function (e) {
     e.preventDefault();
-    console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
+    console.log('Successfully selected place:', $scope.placeHistory, ' for event ', currentEventDrive);
     modalDrive.modal('toggle');
     var eventDrive = currentEventDrive;
     var indexDrive = $scope.events.indexOf(eventDrive);
@@ -198,7 +198,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   });
 
   modalDrive.on('hidden.bs.modal', function () {
-    $scope.placeDrive = undefined;
+    $scope.placeHistory = undefined;
     modalDrive.find('input').val('');
     currentEventDrive = null;
   });

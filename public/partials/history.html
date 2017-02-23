@@ -16,6 +16,13 @@
           <p><i class="material-icons md-18">date_range</i> {{event.date}}</p>
           <p><i class="material-icons md-18">access_time</i> {{event.time}}</p>
         </div>
+        <div class="text-center mdl-card__actions mdl-card--border">
+          <a ng-href="#" ng-click="getContactInfo(event)">
+            <div class="text-center mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              Retrieve Contact Information
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>

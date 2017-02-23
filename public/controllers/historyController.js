@@ -106,3 +106,24 @@ angularApp.controller('historyController', function($scope, $http, $rootScope, $
     currentEvent = null;
   });
 });
+
+/** Get Contact Info **/
+
+var modalHistory = $('#eventsHistoryModal');
+//var currentEventHistory = null;
+getContactInfo = function(event) {
+  modalHistory.modal('show');
+  modalHistory.find('input').focus();
+  //currentEventHistory = event;
+};
+
+modalHistory.find('.cancel-btn').click(function () {
+  modalHistory.modal('toggle');
+
+  modalHistory.on('hidden.bs.modal', function () {
+    $scope.placeHistory = undefined;
+    modalHistory.find('input').val('');
+    //currentEventHistory = null;
+  });
+});
+
