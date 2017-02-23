@@ -156,7 +156,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     currentEvent = null;
   });
 
-  /**!!!!!**/
+  /** I'm driving **/
 
   var modalDrive = $('#eventsDriveModal');
   var currentEventDrive = null;
