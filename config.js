@@ -5,7 +5,7 @@ module.exports = {
     apiKey: 'key-9943d2b4426c0b7001c2deeb55f688a0',
     domain: 'mg.ucpool.com'
   },
-  hostUrl: 'http://www.ucpool.com/',
+  hostUrl: 'https://www.ucpool.com/',
   facebookVerifyToken: 'what_D0es_dA_f0X_s@y',
 
   facebookAppId: '1864192320465862',

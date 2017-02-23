@@ -4,6 +4,7 @@ const config = require('../config');
 const mailComposer = require('mailcomposer');
 const mailGun = require('mailgun-js')(config.mailGunConfig);
 const FB = require('fb');
+const Event = require('../models/Event');
 
 const jade = require('jade');
 const fs = require('fs');
@@ -96,6 +97,9 @@ userSchema.methods.fetchFacebookEvents = function () {
   let fb = new FB.Facebook();
   fb.setAccessToken(user.facebookToken);
   fb.api('/' + user.facebookId + '/events', function (fbRes) {
+    if (!fbRes || fbRes.error || !fbRes.data) {
+      return;
+    }
     let now = (new Date()).getTime();
     let finalEvents = [];
     fbRes.data.forEach(event => {
