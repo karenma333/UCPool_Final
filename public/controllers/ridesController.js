@@ -102,7 +102,7 @@ angularApp.controller('ridesController', function($scope, $http, $rootScope, $lo
     bindAutoComplete();
   }
 
-  var modal = $('#eventsRideModal');
+  var modal = $('#matchRideModal');
   var currentEvent = null;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
