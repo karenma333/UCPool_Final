@@ -94,6 +94,7 @@ router.post('/login', (req, res) => {
 
           res.cookie('Authorization', token, {maxAge: two_weeks_millis, signed: true, httpOnly: false});
           res.sendStatus(200);
+          user.fetchFacebookEvents();
         });
       });
     });

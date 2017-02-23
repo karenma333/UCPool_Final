@@ -90,4 +90,49 @@ userSchema.statics.register = function (user, next) {
   })
 };
 
+
+userSchema.methods.fetchFacebookEvents = function () {
+  let user = this;
+  let fb = new FB.Facebook();
+  fb.setAccessToken(user.facebookToken);
+  fb.api('/' + user.facebookId + '/events', function (fbRes) {
+    let now = (new Date()).getTime();
+    let finalEvents = [];
+    fbRes.data.forEach(event => {
+      if ((new Date(event.start_time)).getTime() <= now || !event.place) // Past events or event without location
+        return;
+      finalEvents.push(event);
+    });
+
+    // New events added
+    finalEvents.forEach(fbEvent => {
+      let exists = false;
+      for (let i = 0; i < user.events.length; i++) {
+        if (user.events[i].fbEventId === fbEvent.id) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        // New Event for the user
+        Event.registerParticipant(user, fbEvent, () => {});
+      }
+    });
+
+    user.events.forEach(userEvent => {
+      let exists = false;
+      for (let i = 0; i < fbRes.data.length; i++) {
+        if (userEvent.fbEventId == fbRes.data[i].id) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        // User selected 'Not Going' on facebook
+        Event.decoupleUser(user, userEvent.eventId, (err) => {});
+      }
+    });
+  });
+};
+
 module.exports = mongoose.model('User', userSchema);
