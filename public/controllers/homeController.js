@@ -42,7 +42,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  $http.get('/api/events/all')
+  $http.get('/api/events/upcoming')
     .then(function success(response) {
       $scope.events = response.data;
     }, function failure(response) {
@@ -85,7 +85,10 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       $scope.events.splice(index, 0, event);
       $scope.$apply();
     }, function onTimeout() {
-      // TODO update event on server
+      $http.put('/api/events/' + event.id + '/dismiss', null, null)
+        .then(function success() {}, function failure() {
+          showSnackBar('Unknown error occurred');
+        });
     });
   };
 

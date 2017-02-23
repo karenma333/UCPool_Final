@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema({
   email: String,
   facebookId: String,
   facebookToken: String,
-  verified: {type: Boolean, default: false}
+  verified: {type: Boolean, default: false},
+  events: [{eventId: mongoose.Schema.Types.ObjectId, fbEventId: String, dismissed: Boolean}]
 });
 
 
