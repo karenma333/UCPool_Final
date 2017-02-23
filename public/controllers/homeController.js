@@ -96,12 +96,12 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   function bindAutoComplete() {
     autoCompleteRide.addListener('place_changed', function () {
       var placeRide = autoCompleteRide.getPlace();
-      if (placeRide.place_id)
+      if (placeRide.place.id)
         $scope.placeRide = placeRide;
     });
     autoCompleteDrive.addListener('place_changed', function () {
       var placeDrive = autoCompleteDrive.getPlace();
-      if (placeDrive.place_id)
+      if (placeDrive.place.id)
         $scope.placeDrive = placeDrive;
     });
     bound = true;
@@ -196,9 +196,11 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       // TODO submit request to server get riders
     });
   });
+
   modalDrive.on('hidden.bs.modal', function () {
     $scope.placeDrive = undefined;
     modalDrive.find('input').val('');
     currentEventDrive = null;
   });
+
 });
