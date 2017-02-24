@@ -42,12 +42,46 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  $http.get('/api/events/upcoming')
-    .then(function success(response) {
-      $scope.events = response.data;
-    }, function failure(response) {
-      // TODO
-    });
+  if (isLoggedIn()) {
+    $http.get('/api/events/upcoming')
+      .then(function success(response) {
+        response.data.forEach(function (event) {
+          event.startTime = new Date(event.startTime);
+          event.endTime = new Date(event.endTime);
+        });
+        console.log(response.data);
+        $scope.events = response.data;
+      }, function failure(response) {
+        // TODO
+      });
+  }
+
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+  var weekDays = [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+    'Friday', 'Saturday'
+  ];
+  $scope.getFormattedDate = function (date) {
+    var day = date.getDay();
+    var dateNum = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return weekDays[day] + ', ' + dateNum + ' ' + monthNames[monthIndex] + ' ' + year;
+  };
+
+  $scope.getFormattedTime = function (date) {
+    var hours = date.getHours();
+    var half = (hours >= 12) ? 'PM' : 'AM';
+    hours = (hours >= 12) ? (hours - 12) : hours;
+    hours = (hours == 0) ? 12 : hours;
+    return hours + ':' + (date.getMinutes()/10 == 0 ? '0' : '') + date.getMinutes() + ' ' + half;
+  };
 
   function showSnackBar(message, undoHandler, onTimeout) {
     var snackbarContainer = document.querySelector('#events-snackbar');
@@ -81,11 +115,11 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   $scope.dismissEvent = function (event) {
     var index = $scope.events.indexOf(event);
     $scope.events.splice(index, 1);
-    showSnackBar(event.title + ' dismissed', function undoHandler() {
+    showSnackBar(event.name + ' dismissed', function undoHandler() {
       $scope.events.splice(index, 0, event);
       $scope.$apply();
     }, function onTimeout() {
-      $http.put('/api/events/' + event.id + '/dismiss', null, null)
+      $http.put('/api/events/' + event._id + '/dismiss', null, null)
         .then(function success() {}, function failure() {
           showSnackBar('Unknown error occurred');
         });

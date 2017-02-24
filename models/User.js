@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   facebookId: String,
   facebookToken: String,
   verified: {type: Boolean, default: false},
-  events: [{eventId: mongoose.Schema.Types.ObjectId, fbEventId: String, dismissed: Boolean}]
+  events: [{eventId: {type: mongoose.Schema.Types.ObjectId, unique: true}, fbEventId: String, dismissed: Boolean}]
 });
 
 
@@ -100,15 +100,16 @@ userSchema.methods.fetchFacebookEvents = function () {
     if (!fbRes || fbRes.error || !fbRes.data) {
       return;
     }
+
     let now = (new Date()).getTime();
-    let finalEvents = [];
-    fbRes.data.forEach(event => {
-      if ((new Date(event.start_time)).getTime() <= now || !event.place) // Past events or event without location
-        return;
-      finalEvents.push(event);
+    let finalEvents = fbRes.data.filter(event => {
+      // Only use events with location and in the future
+      return event.place && ((new Date(event.start_time)).getTime() > now);
     });
 
+
     // New events added
+    let newEvents = [];
     finalEvents.forEach(fbEvent => {
       let exists = false;
       for (let i = 0; i < user.events.length; i++) {
@@ -119,7 +120,7 @@ userSchema.methods.fetchFacebookEvents = function () {
       }
       if (!exists) {
         // New Event for the user
-        Event.registerParticipant(user, fbEvent, () => {});
+        newEvents.push(fbEvent);
       }
     });
 
@@ -133,8 +134,18 @@ userSchema.methods.fetchFacebookEvents = function () {
       }
       if (!exists) {
         // User selected 'Not Going' on facebook
-        Event.decoupleUser(user, userEvent.eventId, (err) => {});
+        Event.removeParticipant(user, userEvent.eventId, (err) => {
+          if (err) {
+            return;
+          }
+          userEvent.dismissed = true;
+          user.save();
+        });
       }
+    });
+
+    user.save(() => {
+      Event.registerParticipant(user, newEvents, () => {});
     });
   });
 };
