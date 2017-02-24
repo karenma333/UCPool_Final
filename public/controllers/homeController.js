@@ -56,33 +56,6 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       });
   }
 
-  var monthNames = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
-  ];
-  var weekDays = [
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
-    'Friday', 'Saturday'
-  ];
-  $scope.getFormattedDate = function (date) {
-    var day = date.getDay();
-    var dateNum = date.getDate();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
-
-    return weekDays[day] + ', ' + dateNum + ' ' + monthNames[monthIndex] + ' ' + year;
-  };
-
-  $scope.getFormattedTime = function (date) {
-    var hours = date.getHours();
-    var half = (hours >= 12) ? 'PM' : 'AM';
-    hours = (hours >= 12) ? (hours - 12) : hours;
-    hours = (hours == 0) ? 12 : hours;
-    return hours + ':' + (date.getMinutes()/10 == 0 ? '0' : '') + date.getMinutes() + ' ' + half;
-  };
-
   function showSnackBar(message, undoHandler, onTimeout) {
     var snackbarContainer = document.querySelector('#events-snackbar');
     var timeout = 2500;

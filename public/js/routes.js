@@ -76,6 +76,35 @@ angularApp.config(function ($routeProvider, $locationProvider) {
         d.MaterialLayout.toggleDrawer();
       }, 100);
     };
+
+
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+    var weekDays = [
+      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+      'Friday', 'Saturday'
+    ];
+
+    $rootScope.getFormattedDate = function (date) {
+      var day = date.getDay();
+      var dateNum = date.getDate();
+      var monthIndex = date.getMonth();
+      var year = date.getFullYear();
+
+      return weekDays[day] + ', ' + dateNum + ' ' + monthNames[monthIndex] + ' ' + year;
+    };
+
+    $rootScope.getFormattedTime = function (date) {
+      var hours = date.getHours();
+      var half = (hours >= 12) ? 'PM' : 'AM';
+      hours = (hours >= 12) ? (hours - 12) : hours;
+      hours = (hours == 0) ? 12 : hours;
+      return hours + ':' + (date.getMinutes()/10 == 0 ? '0' : '') + date.getMinutes() + ' ' + half;
+    };
   })
   .directive('backImg', function () {
     return function (scope, element, attrs) {
