@@ -75,6 +75,12 @@ ng-view {
   font-size: 12px;
   margin-top: 3px;
   display: block;
+  padding: 0px;
+}
+
+.textfield-pad{
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .event .mdl-card {
@@ -160,6 +166,10 @@ ng-view {
   max-width: 500px;
 }
 
+.dialog-title{
+  color: black;
+}
+
 .pac-container {
   z-index: 1100;
 }
@@ -181,4 +191,11 @@ ng-view {
 
 .mdl-layout__tab-bar-container {
   height: 0;
+}
+
+#eventsHistoryModal input {
+  width: 100%;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  border-radius: 3px !important;
 }

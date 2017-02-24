@@ -94,10 +94,10 @@
 <div class="modal fade" id="eventsRideModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog mdl-dialog" role="document">
     <div class="modal-content">
-      <h4 class="mdl-dialog__title">Pick up location:</h4>
       <div class="mdl-dialog__content">
         <form>
-          <div class="mdl-textfield mdl-js-textfield">
+          <h3 class="dialog-title">Pick up location:</h3>
+          <div class="mdl-textfield textfield-pad mdl-js-textfield">
             <input class="mdl-textfield__input" placeholder="Enter a pick up location" type="text" id="autoCompleteRide"/>
             <label class="mdl-textfield__label" for="autoCompleteRide">Enter a pick up location</label>
           </div>
@@ -116,21 +116,17 @@
 <div class="modal fade" id="eventsDriveModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog mdl-dialog" role="document">
     <div class="modal-content">
-      <h4 class="mdl-dialog__title">Driving from:</h4>
       <div class="mdl-dialog__content">
         <form>
-          <div class="mdl-textfield mdl-js-textfield">
+          <h3 class="dialog-title">Driving from:</h3>
+          <div class="mdl-textfield textfield-pad mdl-js-textfield">
             <input class="mdl-textfield__input" placeholder="Enter address:" type="text" id="autoCompleteDrive"/>
             <label class="mdl-textfield__label" for="autoCompleteDrive">Enter an address</label>
           </div>
-        </form>
-      </div>
-      <h2 class="mdl-dialog__title">Number of seats:</h2>
-      <div class="mdl-dialog__content">
-        <form>
-          <div class="mdl-textfield mdl-js-textfield">
+            <h3 class="dialog-title">Number of seats:</h3>
+          <div class="mdl-textfield textfield-pad mdl-js-textfield">
             <input class="mdl-textfield__input" placeholder="Enter number of free seats:" type="text"/>
-            <label class="mdl-textfield__label" for="autoCompleteRide">Enter an address</label>
+            <label class="mdl-textfield__label" for="autoCompleteRide">Enter number of seats</label>
           </div>
         </form>
       </div>
@@ -161,7 +157,7 @@
    </div>
  </div>
  <!-- Match Drive Modal -->
- <div class="modal fade" id="matchDriveModal" tabindex="-1" role="dialog" aria-idden="true">
+ <div class="modal fade" id="matchDriveModal" tabindex="-1" role="dialog" aria-hidden="true">
    <div class="modal-dialog mdl-dialog" role="document">
     <div class="modal-content">
        <h4 class="mdl-dialog__title">You've been matched with passengers</h4>
