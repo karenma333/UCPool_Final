@@ -58,6 +58,13 @@ ng-view {
   margin: 10px;
 }
 
+.profile-picture-sm {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #FFF;
+}
+
 #fb-button i {
   margin-right: 5px;
 }
@@ -169,4 +176,9 @@ ng-view {
   -webkit-border-radius: 3px !important;
   -moz-border-radius: 3px !important;
   border-radius: 3px !important;
+}
+
+
+.mdl-layout__tab-bar-container {
+  height: 0;
 }

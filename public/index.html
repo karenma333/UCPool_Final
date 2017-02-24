@@ -60,19 +60,27 @@
         <!-- Add spacer, to align navigation to the right -->
         <div class="mdl-layout-spacer"></div>
       </div>
+      <!-- Tabs -->
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect" ng-show="ridesRoute">
+        <a ng-href="/rides/pending" class="mdl-layout__tab" ng-class="{'is-active': ridesPendingRoute}">Pending</a>
+        <a ng-href="/rides/confirmed" class="mdl-layout__tab" ng-class="{'is-active': ridesConfirmedRoute}">Confirmed</a>
+      </div>
     </header>
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">UC Pool</span>
       <nav class="mdl-navigation">
         <a class="mdl-navigation__link" ng-class="{'is-active': eventsRoute}" ng-href="/home" ng-click="toggleDrawer()"><i class="material-icons">event</i> Events</a>
-        <a class="mdl-navigation__link" ng-class="{'is-active': ridesRoute}" ng-href="/rides" ng-click="toggleDrawer()"><i class="material-icons">directions_car</i> Rides</a>
+        <a class="mdl-navigation__link" ng-class="{'is-active': ridesRoute}" ng-href="/rides/pending" ng-click="toggleDrawer()">
+          <i class="material-icons">directions_car</i> Rides
+          <span class="mdl-badge" ng-show="pendingRides.length > 0" data-badge="{{pendingRides.length}}"></span>
+        </a>
         <a class="mdl-navigation__link" ng-class="{'is-active': historyRoute}" ng-href="/history" ng-click="toggleDrawer()"><i class="material-icons">history</i> History</a>
         <hr>
         <a class="mdl-navigation__link" ng-class="{'is-active': settingsRoute}" ng-href="/settings" ng-click="toggleDrawer()"><i class="material-icons">settings</i> Settings</a>
       </nav>
     </div>
     <main class="mdl-layout__content">
-      <div class="page-content">
+      <div ng-class="{'page-content': !ridesRoute}">
         <ng-view autoscroll="true"></ng-view>
       </div>
     </main>
@@ -139,7 +147,7 @@
      <div class="modal-content">
        <h4 class="mdl-dialog__title">You've been matched with a Driver</h4>
        <i class="material-icons mdl-list__item-avatar">person</i>
- 
+
        <div class="mdl-dialog__content">
            <div class="mdl-textfield mdl-js-textfield">
              <span> Driver Name: Dani Johnston Driver Number: 9252979797 </span>
@@ -158,7 +166,7 @@
     <div class="modal-content">
        <h4 class="mdl-dialog__title">You've been matched with passengers</h4>
        <i class="material-icons mdl-list__item-avatar">person</i>
- 
+
        <div class="mdl-dialog__content">
            <div class="mdl-textfield mdl-js-textfield">
              <span> Rider Name: Dani Johnston Rider Number: 9252979797 </span>

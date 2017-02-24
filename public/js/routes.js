@@ -26,8 +26,12 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       templateUrl: './partials/history.html',
       controller: 'historyController'
     })
-    .when('/rides', {
-      templateUrl: './partials/rides.html',
+    .when('/rides/pending', {
+      templateUrl: './partials/ridesPending.html',
+      controller: 'ridesController'
+    })
+    .when('/rides/confirmed', {
+      templateUrl: './partials/ridesConfirmed.html',
       controller: 'ridesController'
     })
     .when('/404', {
@@ -57,14 +61,25 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       $rootScope.hideNavBar = next.$$route.hideNavBar;
     });
 
+    $rootScope.pendingRides = [];
+    $rootScope.confirmedRides = [];
+
     $rootScope.$on('$routeChangeSuccess', function () {
       $rootScope.eventsRoute = window.location.pathname === "/home";
-      $rootScope.ridesRoute = window.location.pathname === "/rides";
+      $rootScope.ridesRoute = window.location.pathname.startsWith("/rides");
       $rootScope.historyRoute = window.location.pathname === "/history";
       $rootScope.settingsRoute = window.location.pathname === "/settings";
+      $rootScope.ridesPendingRoute = window.location.pathname === "/rides/pending";
+      $rootScope.ridesConfirmedRoute = window.location.pathname === "/rides/confirmed";
     });
 
     $rootScope.$on('$viewContentLoaded', () => {
+      var tabBarContainer = $('.mdl-layout__tab-bar-container');
+      if (window.location.pathname.startsWith('/rides')) {
+        tabBarContainer.css('height', '48px');
+      } else {
+        tabBarContainer.css('height', '0px');
+      }
       $timeout(() => {
         componentHandler.upgradeAllRegistered();
       })

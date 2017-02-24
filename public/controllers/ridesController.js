@@ -1,12 +1,4 @@
 angularApp.controller('ridesController', function($scope, $http, $rootScope, $location, $window, $animate) {
-
-  $http.get('/api/events/upcoming')
-    .then(function success(response) {
-      $scope.events = response.data;
-    }, function failure(response) {
-      // TODO
-    });
-
   function showSnackBar(message, undoHandler, onTimeout) {
     var snackbarContainer = document.querySelector('#events-snackbar');
     var timeout = 2500;
@@ -36,73 +28,43 @@ angularApp.controller('ridesController', function($scope, $http, $rootScope, $lo
     }, timeout + 500);
   }
 
-  $scope.dismissEvent = function (event) {
-    var index = $scope.events.indexOf(event);
-    $scope.events.splice(index, 1);
-    showSnackBar(event.title + ' dismissed', function undoHandler() {
-      $scope.events.splice(index, 0, event);
-      $scope.$apply();
-    }, function onTimeout() {
-      // TODO update event on server
+  $scope.confirmRide = function (ride) {
+    var index = $rootScope.pendingRides.indexOf(ride);
+    $rootScope.pendingRides.splice(index, 1);
+    showSnackBar('Confirming ride', function undo() {
+      $rootScope.pendingRides.splice(index, 0, ride);
+      $rootScope.$apply();
+    }, function onTimeOut() {
+      $rootScope.confirmedRides.push(ride);
     });
   };
 
-  var bound = false;
-  function bindAutoComplete() {
-    autoCompleteRide.addListener('place_changed', function () {
-      let place = autoCompleteRide.getPlace();
-      if (place.place_id)
-        $scope.place = place;
+  $scope.declineRide = function (ride) {
+    var index = $rootScope.pendingRides.indexOf(ride);
+    $rootScope.pendingRides.splice(index, 1);
+    showSnackBar('Declining ride', function undo() {
+      $rootScope.pendingRides.splice(index, 0, ride);
+      $rootScope.$apply();
     });
-    bound = true;
-  }
-  if (autoCompleteRide) {
-    bindAutoComplete();
-  }
-
-  var modal = $('#matchRideModal');
-  var currentEvent = null;
-  $scope.getRide = function (event) {
-    if (!bound && !autoCompleteRide) {
-      showSnackBar('Please wait');
-      return;
-    }
-    if (!bound && autoCompleteRide) {
-      bindAutoComplete();
-    }
-
-    modal.modal('show');
-    modal.find('input').focus();
-    currentEvent = event;
   };
 
-  var modalForm = modal.find('form');
-  modal.find('.submit-btn').click(function () {
-    modalForm.submit();
-  });
-  modal.find('.cancel-btn').click(function () {
-    modal.modal('toggle');
-  });
-  modalForm.submit(function (e) {
-    e.preventDefault();
-    if ($scope.place) {
-      console.log('Successfully selected place:', $scope.place, ' for event ', currentEvent);
-      modal.modal('toggle');
-      var event = currentEvent;
-      var index = $scope.events.indexOf(event);
-      $scope.events.splice(index, 1);
-      $scope.$apply();
-      showSnackBar('We will look for rides', function undoHandler() {
-        $scope.events.splice(index, 0, event);
-        $scope.$apply();
-      }, function onTimeout() {
-        // TODO submit request to server to fix a ride
-      });
-    }
-  });
-  modal.on('hidden.bs.modal', function () {
-    $scope.place = undefined;
-    modal.find('input').val('');
-    currentEvent = null;
-  });
+  $scope.confirmPickup = function (ride) {
+    var index = $rootScope.pendingRides.indexOf(ride);
+    $rootScope.pendingRides.splice(index, 1);
+    showSnackBar('Confirming pickup', function undo() {
+      $rootScope.pendingRides.splice(index, 0, ride);
+      $rootScope.$apply();
+    }, function onTimeOut() {
+      $rootScope.confirmedRides.push(ride);
+    });
+  };
+
+  $scope.notDriving = function (ride) {
+    var index = $rootScope.pendingRides.indexOf(ride);
+    $rootScope.pendingRides.splice(index, 1);
+    showSnackBar('Removing event', function undo() {
+      $rootScope.pendingRides.splice(index, 0, ride);
+      $rootScope.$apply();
+    });
+  };
 });

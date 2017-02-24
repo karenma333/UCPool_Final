@@ -146,6 +146,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       console.log('Successfully selected place:', $scope.placeRide, ' for event ', currentEvent);
       modalRide.modal('toggle');
       var event = currentEvent;
+      var place = $scope.placeRide;
       var index = $scope.events.indexOf(event);
       $scope.events.splice(index, 1);
       $scope.$apply();
@@ -153,7 +154,10 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         $scope.events.splice(index, 0, event);
         $scope.$apply();
       }, function onTimeout() {
-        // TODO submit request to server to fix a ride
+        event.place = place;
+        event.driving = false;
+        $rootScope.pendingRides.push(event);
+        $rootScope.$apply()
       });
     }
   });
@@ -193,15 +197,19 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     if ($scope.placeDrive) {
       console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
       modalDrive.modal('toggle');
-      var eventDrive = currentEventDrive;
-      var indexDrive = $scope.events.indexOf(eventDrive);
+      var event = currentEventDrive;
+      var place = $scope.placeDrive;
+      var indexDrive = $scope.events.indexOf(event);
       $scope.events.splice(indexDrive, 1);
       $scope.$apply();
       showSnackBar('We will find riders', function undoHandler() {
-        $scope.events.splice(indexDrive, 0, eventDrive);
+        $scope.events.splice(indexDrive, 0, event);
         $scope.$apply();
       }, function onTimeout() {
-        // TODO submit request to server get riders
+        event.place = place;
+        event.driving = true;
+        $rootScope.pendingRides.push(event);
+        $rootScope.$apply()
       });
     }
   });
