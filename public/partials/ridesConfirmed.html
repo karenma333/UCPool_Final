@@ -1,1 +1,112 @@
-<h4>Rides confirmed</h4>
+<div class="container" style="padding-top: 20px;">
+  <!--Spinner-->
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner"
+       ng-class="{'is-active': !confirmedRides}" ng-hide="confirmedRides"></div>
+
+  <div class="mdl-typography--text-center" ng-show="confirmedRides && (confirmedRides.length == 0)">
+    <h4>Nothing to show. Move along.</h4>
+  </div>
+
+
+  <!--Cards-->
+  <div class="mdl-grid">
+    <div ng-repeat="ride in confirmedRides"
+         class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
+      <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title" back-img="{{ride.cover}}">
+          <h2 class="mdl-card__title-text">{{ride.name}}</h2>
+        </div>
+
+        <!--Rider-->
+        <div ng-if="!ride.driving">
+          <div class="mdl-card__supporting-text">
+            <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
+            <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(ride.startTime)}}</p>
+            <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(ride.startTime)}}</p>
+          </div>
+          <div class="mdl-card__actions mdl-card--border">
+            <p>
+              <a href="https://www.facebook.com/zuck" target="_blank">
+                <img class="profile-picture-sm img-circle" src="http://blogs.timesofindia.indiatimes.com/wp-content/uploads/2015/12/mark-zuckerberg.jpg">
+              </a>
+              Mark will pick you up
+            </p>
+          </div>
+        </div>
+
+
+        <!--Driver-->
+        <div ng-if="ride.driving">
+          <div class="mdl-card__supporting-text">
+            <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
+            <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(ride.startTime)}}</p>
+            <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(ride.startTime)}}</p>
+          </div>
+
+          <div class="mdl-card__actions mdl-card--border">
+            <p>Please Pick up:</p>
+
+            <table class="mdl-data-table mdl-js-data-table" style="border: 0; margin: 0 auto;">
+              <thead>
+              <tr>
+                <th class="mdl-data-table__cell--non-numeric"></th>
+                <th class="mdl-data-table__cell--non-numeric">Name</th>
+                <th class="mdl-data-table__cell--non-numeric">Contact</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <a href="https://www.facebook.com/stevejobs.co.uk/" target="_blank">
+                    <img class="profile-picture-sm img-circle" src="https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU0NTIzODQwMDE1/steven-jobs-9354805-2-402.jpg">
+                  </a>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">Steve Jobs</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                    TEXT
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <a href="https://www.facebook.com/Emma-Stone-459300464094268/?fref=ts" target="_blank">
+                    <img class="profile-picture-sm img-circle" src="http://ind5.ccio.co/A6/89/k2/1491114376319826601eHipHvjc.jpg">
+                  </a>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">Emma Stone</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                    TEXT
+                  </button>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <a href="https://www.facebook.com/pages/Elon-Musk/108250442531979?fref=ts" target="_blank">
+                    <img class="profile-picture-sm img-circle" src="https://pbs.twimg.com/profile_images/782474226020200448/zDo-gAo0_400x400.jpg">
+                  </a>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">Elon Musk</td>
+                <td class="mdl-data-table__cell--non-numeric">
+                  <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                    TEXT
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Snackbar-->
+  <div id="events-snackbar" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
+</div>
