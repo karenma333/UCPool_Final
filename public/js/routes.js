@@ -2,7 +2,7 @@ var angularApp = angular.module('UCPool', ['ngRoute', 'ngAnimate']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home', {
-      templateUrl:  isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
+      templateUrl: isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
       controller: 'homeController',
       unauthenticated: true
     })
@@ -64,7 +64,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       $rootScope.settingsRoute = window.location.pathname === "/settings";
     });
 
-    $rootScope.$on('$viewContentLoaded', ()=> {
+    $rootScope.$on('$viewContentLoaded', () => {
       $timeout(() => {
         componentHandler.upgradeAllRegistered();
       })
@@ -75,5 +75,13 @@ angularApp.config(function ($routeProvider, $locationProvider) {
         var d = document.querySelector('.mdl-layout');
         d.MaterialLayout.toggleDrawer();
       }, 100);
+    };
+  })
+  .directive('backImg', function () {
+    return function (scope, element, attrs) {
+      var url = attrs.backImg;
+      element.css({
+        'background': 'url(' + url + ') center / cover'
+      });
     };
   });

@@ -96,7 +96,7 @@ userSchema.methods.fetchFacebookEvents = function () {
   let user = this;
   let fb = new FB.Facebook();
   fb.setAccessToken(user.facebookToken);
-  fb.api('/' + user.facebookId + '/events', function (fbRes) {
+  fb.api('/' + user.facebookId + '/events?fields=id,name,description,start_time,cover,place', function (fbRes) {
     if (!fbRes || fbRes.error || !fbRes.data) {
       return;
     }

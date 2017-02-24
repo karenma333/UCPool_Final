@@ -32,7 +32,7 @@ router.get('/upcoming', (req, res) => {
     Event.find({
       _id: {$in: eventIds},
       startTime: {$gt: now}
-    }, 'name description startTime endTime fbEventId',
+    }, 'name description startTime fbEventId cover',
       {sort: {startTime: 1}},
       (err, events) => {
       if (err) {
