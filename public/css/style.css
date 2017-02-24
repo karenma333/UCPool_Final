@@ -68,6 +68,12 @@ ng-view {
   font-size: 12px;
   margin-top: 3px;
   display: block;
+  padding: 0px;
+}
+
+.textfield-pad{
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .event .mdl-card {
@@ -151,6 +157,10 @@ ng-view {
   vertical-align: middle;
   width: 80%;
   max-width: 500px;
+}
+
+.dialog-title{
+  color: black;
 }
 
 .pac-container {
