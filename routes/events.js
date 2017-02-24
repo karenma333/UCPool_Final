@@ -30,16 +30,16 @@ router.get('/upcoming', (req, res) => {
       return event.eventId;
     });
     Event.find({
-      _id: {$in: eventIds},
-      startTime: {$gt: now}
-    }, 'name description startTime endTime fbEventId',
+        _id: {$in: eventIds},
+        startTime: {$gt: now}
+      }, 'name description startTime fbEventId cover',
       {sort: {startTime: 1}},
       (err, events) => {
-      if (err) {
-        return res.sendStatus(500);
-      }
-      res.json(events);
-    });
+        if (err) {
+          return res.sendStatus(500);
+        }
+        res.json(events);
+      });
   });
 });
 

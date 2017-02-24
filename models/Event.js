@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Event = new mongoose.Schema({
   name: String,
+  cover: String,
   description: String,
   startTime: Date,
   fbEventId: {type: String, unique: true},
@@ -46,7 +47,8 @@ Event.statics.registerParticipant = function (user, fbEvents, next) {
           name: fbEvent.name,
           description: fbEvent.description,
           startTime: new Date(fbEvent.start_time),
-          fbEventId: fbEvent.id
+          fbEventId: fbEvent.id,
+          cover: fbEvent.cover.source
         });
       });
       events = events.concat(newEvents);
