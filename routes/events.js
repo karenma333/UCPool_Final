@@ -18,10 +18,29 @@ router.get('/upcoming', (req, res) => {
   if (!req.userId) {
     return res.sendStatus(401);
   }
+  let now = new Date();
 
-  setTimeout(()=> {
-    res.json(events);
-  }, 2000);
+  User.findById(req.userId, 'events.eventId events.dismissed', (err, user) => {
+    if (err || !user) {
+      return res.sendStatus(500);
+    }
+    let eventIds = user.events.filter(event => {
+      return !event.dismissed;
+    }).map(event => {
+      return event.eventId;
+    });
+    Event.find({
+      _id: {$in: eventIds},
+      startTime: {$gt: now}
+    }, 'name description startTime endTime fbEventId',
+      {sort: {startTime: 1}},
+      (err, events) => {
+      if (err) {
+        return res.sendStatus(500);
+      }
+      res.json(events);
+    });
+  });
 });
 
 
