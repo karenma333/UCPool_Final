@@ -130,12 +130,12 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   function bindAutoComplete() {
     autoCompleteRide.addListener('place_changed', function () {
       var placeRide = autoCompleteRide.getPlace();
-      if (placeRide.place.id)
+      if (placeRide.place_id)
         $scope.placeRide = placeRide;
     });
     autoCompleteDrive.addListener('place_changed', function () {
       var placeDrive = autoCompleteDrive.getPlace();
-      if (placeDrive.place.id)
+      if (placeDrive.place_id)
         $scope.placeDrive = placeDrive;
     });
     bound = true;
@@ -144,7 +144,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     bindAutoComplete();
   }
 
-  var modal = $('#eventsRideModal');
+  var modalRide = $('#eventsRideModal');
   var currentEvent = null;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
@@ -155,23 +155,23 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       bindAutoComplete();
     }
 
-    modal.modal('show');
-    modal.find('input').focus();
+    modalRide.modal('show');
+    modalRide.find('input').focus();
     currentEvent = event;
   };
 
-  var modalForm = modal.find('form');
-  modal.find('.submit-btn').click(function () {
-    modalForm.submit();
+  var rideForm = modalRide.find('form');
+  modalRide.find('.submit-btn').click(function () {
+    rideForm.submit();
   });
-  modal.find('.cancel-btn').click(function () {
-    modal.modal('toggle');
+  modalRide.find('.cancel-btn').click(function () {
+    modalRide.modal('toggle');
   });
-  modalForm.submit(function (e) {
+  rideForm.submit(function (e) {
     e.preventDefault();
     if ($scope.placeRide) {
       console.log('Successfully selected place:', $scope.placeRide, ' for event ', currentEvent);
-      modal.modal('toggle');
+      modalRide.modal('toggle');
       var event = currentEvent;
       var index = $scope.events.indexOf(event);
       $scope.events.splice(index, 1);
@@ -184,9 +184,9 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       });
     }
   });
-  modal.on('hidden.bs.modal', function () {
+  modalRide.on('hidden.bs.modal', function () {
     $scope.placeRide = undefined;
-    modal.find('input').val('');
+    modalRide.find('input').val('');
     currentEvent = null;
   });
 
@@ -217,18 +217,20 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   });
   modalFormDrive.submit(function (e) {
     e.preventDefault();
-    console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
-    modalDrive.modal('toggle');
-    var eventDrive = currentEventDrive;
-    var indexDrive = $scope.events.indexOf(eventDrive);
-    $scope.events.splice(indexDrive, 1);
-    $scope.$apply();
-    showSnackBar('We will find riders', function undoHandler() {
-      $scope.events.splice(indexDrive, 0, eventDrive);
+    if ($scope.placeDrive) {
+      console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
+      modalDrive.modal('toggle');
+      var eventDrive = currentEventDrive;
+      var indexDrive = $scope.events.indexOf(eventDrive);
+      $scope.events.splice(indexDrive, 1);
       $scope.$apply();
-    }, function onTimeout() {
-      // TODO submit request to server get riders
-    });
+      showSnackBar('We will find riders', function undoHandler() {
+        $scope.events.splice(indexDrive, 0, eventDrive);
+        $scope.$apply();
+      }, function onTimeout() {
+        // TODO submit request to server get riders
+      });
+    }
   });
 
   modalDrive.on('hidden.bs.modal', function () {
