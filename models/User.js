@@ -138,7 +138,7 @@ userSchema.methods.fetchFacebookEvents = function () {
           if (err) {
             return;
           }
-          userEvent.dismissed = true;
+          user.events.splice(user.events.indexOf(userEvent), 1);
           user.save();
         });
       }

@@ -2,6 +2,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   if (!isLoggedIn()) {
     $rootScope.hideNavBar = true;
   }
+
   $scope.submitting = $rootScope.FB;
   $scope.fbLogin = function () {
     $scope.error = null;
@@ -56,45 +57,16 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       });
   }
 
-  function showSnackBar(message, undoHandler, onTimeout) {
-    var snackbarContainer = document.querySelector('#events-snackbar');
-    var timeout = 2500;
-    var undo = false;
-    let options = {
-      message: message,
-      timeout: timeout
-    };
-    if (undoHandler) {
-      options.actionText = 'Undo';
-      options.actionHandler = function () {
-        if (undo)
-          return;
-
-        undo = true;
-        undoHandler();
-      }
-    }
-    snackbarContainer.MaterialSnackbar.showSnackbar(options);
-    setTimeout(function () {
-      if (undo) {
-        return;
-      }
-      if (onTimeout) {
-        onTimeout();
-      }
-    }, timeout + 500);
-  }
-
   $scope.dismissEvent = function (event) {
     var index = $scope.events.indexOf(event);
     $scope.events.splice(index, 1);
-    showSnackBar(event.name + ' dismissed', function undoHandler() {
+    $rootScope.showSnackbar(event.name + ' dismissed', function undoHandler() {
       $scope.events.splice(index, 0, event);
       $scope.$apply();
     }, function onTimeout() {
       $http.put('/api/events/' + event._id + '/dismiss', null, null)
         .then(function success() {}, function failure() {
-          showSnackBar('Unknown error occurred');
+          $rootScope.showSnackbar('Unknown error occurred');
         });
     });
   };
@@ -121,7 +93,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   var currentEvent = null;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
-      showSnackBar('Please wait');
+      $rootScope.showSnackbar('Please wait');
       return;
     }
     if (!bound && autoCompleteRide) {
@@ -150,7 +122,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       var index = $scope.events.indexOf(event);
       $scope.events.splice(index, 1);
       $scope.$apply();
-      showSnackBar('We will look for rides', function undoHandler() {
+      $rootScope.showSnackbar('We will look for rides', function undoHandler() {
         $scope.events.splice(index, 0, event);
         $scope.$apply();
       }, function onTimeout() {
@@ -173,7 +145,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   var currentEventDrive = null;
   $scope.giveRide = function (event) {
     if (!bound && !autoCompleteDrive) {
-      showSnackBar('Please wait');
+      $rootScope.showSnackbar('Please wait');
       return;
     }
     if (!bound && autoCompleteDrive) {
@@ -202,7 +174,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       var indexDrive = $scope.events.indexOf(event);
       $scope.events.splice(indexDrive, 1);
       $scope.$apply();
-      showSnackBar('We will find riders', function undoHandler() {
+      $rootScope.showSnackbar('We will find riders', function undoHandler() {
         $scope.events.splice(indexDrive, 0, event);
         $scope.$apply();
       }, function onTimeout() {

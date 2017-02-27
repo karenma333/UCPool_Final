@@ -64,6 +64,35 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     $rootScope.pendingRides = [];
     $rootScope.confirmedRides = [];
 
+    $rootScope.showSnackbar = function (message, undoHandler, onTimeout) {
+      var snackbarContainer = document.querySelector('#snackbar');
+      var timeout = 3000;
+      var undo = false;
+      let options = {
+        message: message,
+        timeout: timeout
+      };
+      if (undoHandler) {
+        options.actionText = 'Undo';
+        options.actionHandler = function () {
+          if (undo)
+            return;
+
+          undo = true;
+          undoHandler();
+        }
+      }
+      snackbarContainer.MaterialSnackbar.showSnackbar(options);
+      setTimeout(function () {
+        if (undo) {
+          return;
+        }
+        if (onTimeout) {
+          onTimeout();
+        }
+      }, timeout + 500);
+    };
+
     $rootScope.$on('$routeChangeSuccess', function () {
       $rootScope.eventsRoute = window.location.pathname === "/home";
       $rootScope.ridesRoute = window.location.pathname.startsWith("/rides");
