@@ -1,1 +1,14 @@
 <h1>Dismissed page</h1>
+
+<!--Upcoming dismissed Events-->
+<div ng-repeat="event in events | filter:isInFuture">
+  <!--TODO-->
+  <!--Use ng-click="restoreEvent(event)" on the restore button to hook up the functionality-->
+</div>
+
+<h1>Past</h1>
+
+<!--Past Dismissed Events. Don't show the restore button-->
+<div ng-repeat="event in events | filter:isInPast">
+  <!--TODO-->
+</div>
