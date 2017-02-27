@@ -142,9 +142,8 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       var day = date.getDay();
       var dateNum = date.getDate();
       var monthIndex = date.getMonth();
-      var year = date.getFullYear();
 
-      return weekDays[day] + ', ' + dateNum + ' ' + monthNames[monthIndex] + ' ' + year;
+      return weekDays[day] + ', ' + dateNum + ' ' + monthNames[monthIndex];
     };
 
     $rootScope.getFormattedTime = function (date) {

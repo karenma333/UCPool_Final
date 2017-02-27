@@ -13,7 +13,7 @@ angularApp.controller('ridesController', function($scope, $http, $rootScope, $lo
   $scope.declineRide = function (ride) {
     var index = $rootScope.pendingRides.indexOf(ride);
     $rootScope.pendingRides.splice(index, 1);
-    $rootScope.showSnackbar('Declining ride', function undo() {
+    $rootScope.showSnackbar('Cancelling Match', function undo() {
       $rootScope.pendingRides.splice(index, 0, ride);
       $rootScope.$apply();
     });
@@ -33,7 +33,7 @@ angularApp.controller('ridesController', function($scope, $http, $rootScope, $lo
   $scope.notDriving = function (ride) {
     var index = $rootScope.pendingRides.indexOf(ride);
     $rootScope.pendingRides.splice(index, 1);
-    $rootScope.showSnackbar('Removing event', function undo() {
+    $rootScope.showSnackbar('Cancelling Match', function undo() {
       $rootScope.pendingRides.splice(index, 0, ride);
       $rootScope.$apply();
     });
