@@ -9,7 +9,7 @@
 
   <!-- Material Design Lite, Roboto & FontAwesome -->
   <script src="https://use.fontawesome.com/ad621baed8.js"></script>
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
@@ -33,6 +33,7 @@
   <script src="controllers/settingsController.js"></script>
   <script src="controllers/ridesController.js"></script>
   <script src="controllers/historyController.js"></script>
+  <script src="controllers/dismissedController.js"></script>
 
   <!--Bootstrap & Styles-->
   <!-- Latest compiled and minified CSS -->
@@ -75,6 +76,7 @@
           <span class="mdl-badge" ng-show="pendingRides.length > 0" data-badge="{{pendingRides.length}}"></span>
         </a>
         <a class="mdl-navigation__link" ng-class="{'is-active': historyRoute}" ng-href="/history" ng-click="toggleDrawer()"><i class="material-icons">history</i> History</a>
+        <a class="mdl-navigation__link" ng-class="{'is-active': dismissedRoute}" ng-href="/dismissed" ng-click="toggleDrawer()"><i class="material-icons">archive</i> Dismissed</a>
         <hr>
         <a class="mdl-navigation__link" ng-class="{'is-active': settingsRoute}" ng-href="/settings" ng-click="toggleDrawer()"><i class="material-icons">settings</i> Settings</a>
       </nav>

@@ -39,6 +39,10 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       hideNavBar: true,
       unauthenticated: true
     })
+    .when('/dismissed', {
+      templateUrl: './partials/dismissed.html',
+      controller: 'dismissedController'
+    })
     .when('/', {
       redirectTo: 'home'
     })
@@ -100,6 +104,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       $rootScope.settingsRoute = window.location.pathname === "/settings";
       $rootScope.ridesPendingRoute = window.location.pathname === "/rides/pending";
       $rootScope.ridesConfirmedRoute = window.location.pathname === "/rides/confirmed";
+      $rootScope.dismissedRoute = window.location.pathname === "/dismissed";
     });
 
     $rootScope.$on('$viewContentLoaded', () => {
