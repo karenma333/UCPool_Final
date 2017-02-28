@@ -1,8 +1,8 @@
-<!-- temp history page -->
 <hr>
 <div class="container">
   <!--Spinner while projects are being loaded-->
-  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}" ng-hide="events"></div>
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}"
+       ng-hide="events"></div>
 
   <div class="mdl-grid">
     <div ng-repeat="event in events"
@@ -13,16 +13,54 @@
         </div>
         <div class="mdl-card__supporting-text">
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
-          <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}}</p>
-          <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(event.startTime)}}</p>
         </div>
-        <div class="text-center mdl-card__actions mdl-card--border">
-          <a ng-href="#" ng-click="getContactInfo(event)">
-            <div class="text-center mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-              Retrieve Contact Information
-            </div>
-          </a>
-        </div>
+        <table class="mdl-data-table mdl-js-data-table" style="border: 0; margin: 0 auto;">
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <a href="https://www.facebook.com/stevejobs.co.uk/" target="_blank">
+                <img class="profile-picture-sm img-circle"
+                     src="https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU0NTIzODQwMDE1/steven-jobs-9354805-2-402.jpg">
+              </a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">Steve Jobs</td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                MESSAGE
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <a href="https://www.facebook.com/Emma-Stone-459300464094268/?fref=ts" target="_blank">
+                <img class="profile-picture-sm img-circle"
+                     src="http://ind5.ccio.co/A6/89/k2/1491114376319826601eHipHvjc.jpg">
+              </a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">Emma Stone</td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                MESSAGE
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <a href="https://www.facebook.com/pages/Elon-Musk/108250442531979?fref=ts" target="_blank">
+                <img class="profile-picture-sm img-circle"
+                     src="https://pbs.twimg.com/profile_images/782474226020200448/zDo-gAo0_400x400.jpg">
+              </a>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">Elon Musk</td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+                MESSAGE
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

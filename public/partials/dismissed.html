@@ -1,14 +1,39 @@
-<h1>Dismissed page</h1>
+<h4>Dismissed events:</h4>
 
-<!--Upcoming dismissed Events-->
-<div ng-repeat="event in events | filter:isInFuture">
-  <!--TODO-->
-  <!--Use ng-click="restoreEvent(event)" on the restore button to hook up the functionality-->
+<div class="container">
+  <!--Spinner while projects are being loaded-->
+  <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}"
+       ng-hide="events"></div>
+
+  <div class="mdl-grid">
+    <!--Upcoming dismissed Events-->
+    <div ng-repeat="event in events | filter:isInFuture"
+         class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
+      <!--TODO-->
+      <!--Use ng-click="restoreEvent(event)" on the restore button to hook up the functionality-->
+      <div class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title" back-img="{{event.cover}}">
+          <h2 class="mdl-card__title-text">{{event.name}}</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
+          <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}}</p>
+          <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(event.startTime)}}</p>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+          <a ng-href="#" ng-click="restoreEvent(event)">
+            <div class="text-center mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              Restore Event
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+  <h1>Past</h1>
 
-<h1>Past</h1>
-
-<!--Past Dismissed Events. Don't show the restore button-->
-<div ng-repeat="event in events | filter:isInPast">
-  <!--TODO-->
-</div>
+  <!--Past Dismissed Events. Don't show the restore button-->
+  <div ng-repeat="event in events | filter:isInPast">
+    <!--TODO-->
+  </div>
