@@ -90,7 +90,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   }
 
   var modalRide = $('#eventsRideModal');
-  var currentEvent = null;
+  var currentEventRide = null;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
       $rootScope.showSnackbar('Please wait');
@@ -102,7 +102,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
 
     modalRide.modal('show');
     modalRide.find('input').focus();
-    currentEvent = event;
+    currentEventRide = event;
   };
 
   var rideForm = modalRide.find('form');
@@ -115,15 +115,14 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   rideForm.submit(function (e) {
     e.preventDefault();
     if ($scope.placeRide) {
-      console.log('Successfully selected place:', $scope.placeRide, ' for event ', currentEvent);
+      console.log('Successfully selected place:', $scope.placeRide, ' for event ', currentEventRide);
       modalRide.modal('toggle');
-      var event = currentEvent;
+      var event = currentEventRide;
       var place = $scope.placeRide;
-      var index = $scope.events.indexOf(event);
-      $scope.events.splice(index, 1);
+      event.riding = true;
       $scope.$apply();
       $rootScope.showSnackbar('We will look for rides', function undoHandler() {
-        $scope.events.splice(index, 0, event);
+        event.riding = false;
         $scope.$apply();
       }, function onTimeout() {
         event.place = place;
@@ -136,7 +135,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   modalRide.on('hidden.bs.modal', function () {
     $scope.placeRide = undefined;
     modalRide.find('input').val('');
-    currentEvent = null;
+    currentEventRide = null;
   });
 
   /** I'm driving **/
@@ -171,15 +170,13 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
       modalDrive.modal('toggle');
       var event = currentEventDrive;
       var place = $scope.placeDrive;
-      var indexDrive = $scope.events.indexOf(event);
-      $scope.events.splice(indexDrive, 1);
+      event.driving = true;
       $scope.$apply();
       $rootScope.showSnackbar('We will find riders', function undoHandler() {
-        $scope.events.splice(indexDrive, 0, event);
+        event.driving = false;
         $scope.$apply();
       }, function onTimeout() {
         event.place = place;
-        event.driving = true;
         $rootScope.pendingRides.push(event);
         $rootScope.$apply()
       });

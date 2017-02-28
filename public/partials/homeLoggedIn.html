@@ -17,19 +17,19 @@
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}} at {{getFormattedTime(event.startTime)}}</p>
         </div>
         <div class="mdl-card__actions mdl-card--border">
-          <a ng-href="#" ng-click="getRide(event)">
+          <a ng-href="#" ng-if="!event.driving && !event.riding" ng-click="getRide(event)">
             <div class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               I need a ride
             </div>
           </a>
-          <a ng-href="#" ng-click="giveRide(event)">
+          <a ng-href="#" ng-if="!event.driving && !event.riding" ng-click="giveRide(event)">
             <div class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
               I'm driving
             </div>
           </a>
-        </div>
-        <div class="mdl-card__supporting-text">
-          <p><i class="material-icons md-18">info_outline</i>Looking for carpoolers now </p>
+          <p ng-if="event.riding || event.driving" style="color: rgba(0,0,0,.54);"><i class="material-icons md-24">info_outline</i>
+            {{event.riding ? 'We will look for rides' : 'We will look for carpoolers'}}
+          </p>
         </div>
         <div class="mdl-card__menu">
           <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect" ng-click="dismissEvent(event)">
