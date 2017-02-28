@@ -31,4 +31,20 @@ angularApp.controller('dismissedController', function ($scope, $rootScope, $http
         });
     });
   };
+
+  $scope.hasPastEvents = function () {
+    for (var i = 0; i < $scope.events.length; i++) {
+      if ($scope.isInPast($scope.events[i]))
+        return true;
+    }
+    return false;
+  };
+
+  $scope.hasFutureEvents = function () {
+    for (var i = 0; i < $scope.events.length; i++) {
+      if ($scope.isInFuture($scope.events[i]))
+        return true;
+    }
+    return false;
+  };
 });
