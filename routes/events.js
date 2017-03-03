@@ -7,7 +7,7 @@ const publicFields = 'name description startTime fbEventId cover';
 
 
 /**
- * GET: /api/events/all
+ * GET: /api/events/upcoming
  *
  * Get all the events for the currently logged in user
  *
@@ -44,6 +44,20 @@ router.get('/upcoming', (req, res) => {
   });
 });
 
+
+/**
+ * GET: /api/events/history
+ *
+ * Get the past rides the user was a part of
+ *
+ * EXPECTS: Nothing
+ *
+ * RESPONDS: [{name description startTime fbEventId cover}]
+ */
+router.get('/history', (req, res) => {
+  // TODO
+  res.json([]);
+});
 
 /**
  * GET: /api/events/dismissed

@@ -16,6 +16,13 @@
           <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2>
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}} at {{getFormattedTime(event.startTime)}}</p>
+          <p ng-click="event.expanded = !event.expanded">Description
+            <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
+              <i class="material-icons" ng-hide="event.expanded">keyboard_arrow_down</i>
+              <i class="material-icons" ng-show="event.expanded">keyboard_arrow_up</i>
+            </button>
+          </p>
+          <p ng-show="event.expanded">{{event.description}}</p>
         </div>
         <div class="mdl-card__actions mdl-card--border">
           <a ng-href="#" ng-if="!event.driving && !event.riding" ng-click="getRide(event)">

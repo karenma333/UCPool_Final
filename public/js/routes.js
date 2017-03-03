@@ -1,10 +1,26 @@
 var angularApp = angular.module('UCPool', ['ngRoute', 'ngAnimate']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
-    .when('/home', {
-      templateUrl: isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
-      controller: 'homeController',
-      unauthenticated: true
+    .when('/home', function () {
+      if (!isLoggedIn()) {
+        return {
+          templateUrl: './partials/homeStatic.html',
+          controller: 'homeController',
+          unauthenticated: true
+        };
+      }
+      var versionA = (Math.floor(Math.random() * 2) == 0);
+      return {
+        redirectTo: versionA ? '/homeA' : '/homeB'
+      };
+    }())
+    .when('/homeA', {
+      templateUrl: './partials/homeLoggedInA.html',
+      controller: 'homeController'
+    })
+    .when('/homeB', {
+      templateUrl: './partials/homeLoggedInB.html',
+      controller: 'homeController'
     })
     .when('/register', {
       templateUrl: './partials/register.html',
@@ -68,33 +84,42 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     $rootScope.pendingRides = [];
     $rootScope.confirmedRides = [];
 
-    $rootScope.showSnackbar = function (message, undoHandler, onTimeout) {
+    /**
+     * Show snack bar on the screen
+     * @param snackBarOptions that can have
+     * message,
+     * timeout (optional),
+     * actionText (optional),
+     * actionHandler (optional),
+     * timeoutHandler (optional)
+     */
+    $rootScope.showSnackbar = function (snackBarOptions) {
       var snackbarContainer = document.querySelector('#snackbar');
       var timeout = 3000;
-      var undo = false;
-      let options = {
-        message: message,
-        timeout: timeout
+      var clickedAction = false;
+      var options = {
+        message: snackBarOptions.message,
+        timeout: snackBarOptions.timeout || timeout
       };
-      if (undoHandler) {
-        options.actionText = 'Undo';
+      options.actionText = snackBarOptions.actionText || (snackBarOptions.actionHandler ? 'Undo' : undefined);
+      if (snackBarOptions.actionHandler) {
         options.actionHandler = function () {
-          if (undo)
+          if (clickedAction)
             return;
 
-          undo = true;
-          undoHandler();
+          clickedAction = true;
+          snackBarOptions.actionHandler();
         }
       }
       snackbarContainer.MaterialSnackbar.showSnackbar(options);
-      setTimeout(function () {
-        if (undo) {
-          return;
-        }
-        if (onTimeout) {
-          onTimeout();
-        }
-      }, timeout + 500);
+      if (snackBarOptions.timeoutHandler) {
+        setTimeout(function () {
+          if (clickedAction) {
+            return;
+          }
+          snackBarOptions.timeoutHandler();
+        }, timeout + 500);
+      }
     };
 
     $rootScope.$on('$routeChangeSuccess', function () {

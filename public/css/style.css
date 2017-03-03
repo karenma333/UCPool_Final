@@ -212,3 +212,8 @@ ng-view {
   bottom: 0;
 }*/
 
+
+.event a {
+  color: white;
+  margin-top: auto;
+}
