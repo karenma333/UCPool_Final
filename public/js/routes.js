@@ -1,10 +1,26 @@
 var angularApp = angular.module('UCPool', ['ngRoute', 'ngAnimate']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
-    .when('/home', {
-      templateUrl: isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
-      controller: 'homeController',
-      unauthenticated: true
+    .when('/home', function () {
+      if (!isLoggedIn()) {
+        return {
+          templateUrl: './partials/homeStatic.html',
+          controller: 'homeController',
+          unauthenticated: true
+        };
+      }
+      var versionA = (Math.floor(Math.random() * 2) == 0);
+      return {
+        redirectTo: versionA ? '/homeA' : '/homeB'
+      };
+    }())
+    .when('/homeA', {
+      templateUrl: './partials/homeLoggedInA.html',
+      controller: 'homeController'
+    })
+    .when('/homeB', {
+      templateUrl: './partials/homeLoggedInB.html',
+      controller: 'homeController'
     })
     .when('/register', {
       templateUrl: './partials/register.html',

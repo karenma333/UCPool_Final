@@ -205,3 +205,8 @@ ng-view {
 .nameShadow{
   text-shadow: 0 1px 0 black;
 }
+
+.event a {
+  color: white;
+  margin-top: auto;
+}
