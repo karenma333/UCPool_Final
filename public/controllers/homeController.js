@@ -43,7 +43,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  if (isLoggedIn()) {
+  function fetchUpcomingEvents() {
     $http.get('/api/events/upcoming')
       .then(function success(response) {
         response.data.forEach(function (event) {
@@ -53,21 +53,34 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         console.log(response.data);
         $scope.events = response.data;
       }, function failure(response) {
-        // TODO
+        $rootScope.showSnackbar({
+          message: 'Unknown Error',
+          actionText: 'Retry',
+          actionHandler: fetchUpcomingEvents
+        });
       });
+  }
+
+  if (isLoggedIn()) {
+    fetchUpcomingEvents();
   }
 
   $scope.dismissEvent = function (event) {
     var index = $scope.events.indexOf(event);
     $scope.events.splice(index, 1);
-    $rootScope.showSnackbar(event.name + ' dismissed', function undoHandler() {
-      $scope.events.splice(index, 0, event);
-      $scope.$apply();
-    }, function onTimeout() {
-      $http.put('/api/events/' + event._id + '/dismiss', null, null)
-        .then(function success() {}, function failure() {
-          $rootScope.showSnackbar('Unknown error occurred');
-        });
+    $rootScope.showSnackbar({
+      message: event.name + ' dismissed',
+      actionText: 'Undo',
+      actionHandler: function () {
+        $scope.events.splice(index, 0, event);
+        $scope.$apply();
+      },
+      timeoutHandler: function () {
+        $http.put('/api/events/' + event._id + '/dismiss', null, null)
+          .then(function success() {}, function failure() {
+            $rootScope.showSnackbar({ message: 'Unknown error occurred'});
+          });
+      }
     });
   };
 
@@ -90,10 +103,10 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   }
 
   var modalRide = $('#eventsRideModal');
-  var currentEventRide = null;
+  var currentEventRide;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
-      $rootScope.showSnackbar('Please wait');
+      $rootScope.showSnackbar({message: 'Please wait'});
       return;
     }
     if (!bound && autoCompleteRide) {
@@ -116,19 +129,24 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     e.preventDefault();
     if ($scope.placeRide) {
       console.log('Successfully selected place:', $scope.placeRide, ' for event ', currentEventRide);
-      modalRide.modal('toggle');
       var event = currentEventRide;
       var place = $scope.placeRide;
+      modalRide.modal('toggle');
       event.riding = true;
       $scope.$apply();
-      $rootScope.showSnackbar('We will look for rides', function undoHandler() {
-        event.riding = false;
-        $scope.$apply();
-      }, function onTimeout() {
-        event.place = place;
-        event.driving = false;
-        $rootScope.pendingRides.push(event);
-        $rootScope.$apply()
+      $rootScope.showSnackbar({
+        message: 'We will look for rides',
+        actionText: 'Undo',
+        actionHandler: function () {
+          event.riding = false;
+          $scope.$apply();
+        },
+        timeoutHandler: function () {
+          event.place = place;
+          event.driving = false;
+          $rootScope.pendingRides.push(event);
+          $rootScope.$apply()
+        }
       });
     }
   });
@@ -141,10 +159,10 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   /** I'm driving **/
 
   var modalDrive = $('#eventsDriveModal');
-  var currentEventDrive = null;
+  var currentEventDrive;
   $scope.giveRide = function (event) {
     if (!bound && !autoCompleteDrive) {
-      $rootScope.showSnackbar('Please wait');
+      $rootScope.showSnackbar({message: 'Please wait'});
       return;
     }
     if (!bound && autoCompleteDrive) {
@@ -167,18 +185,23 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     e.preventDefault();
     if ($scope.placeDrive) {
       console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
-      modalDrive.modal('toggle');
       var event = currentEventDrive;
       var place = $scope.placeDrive;
+      modalDrive.modal('toggle');
       event.driving = true;
       $scope.$apply();
-      $rootScope.showSnackbar('We will find riders', function undoHandler() {
-        event.driving = false;
-        $scope.$apply();
-      }, function onTimeout() {
-        event.place = place;
-        $rootScope.pendingRides.push(event);
-        $rootScope.$apply()
+      $rootScope.showSnackbar({
+        message: 'We will find riders',
+        actionText: 'Undo',
+        actionHandler: function () {
+          event.driving = false;
+          $scope.$apply();
+        },
+        timeoutHandler: function () {
+          event.place = place;
+          $rootScope.pendingRides.push(event);
+          $rootScope.$apply()
+        }
       });
     }
   });
