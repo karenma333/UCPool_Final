@@ -17,9 +17,11 @@
       <!--Use ng-click="restoreEvent(event)" on the restore button to hook up the functionality-->
       <div class="mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title" back-img="{{event.cover}}">
-          <h2 class="mdl-card__title-text">{{event.name}}</h2>
         </div>
+
         <div class="mdl-card__supporting-text">
+          <h2 class="mdl-card__title-text">{{event.name}}</h2>
+
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}}</p>
           <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(event.startTime)}}</p>
