@@ -123,7 +123,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     };
 
     $rootScope.$on('$routeChangeSuccess', function () {
-      $rootScope.eventsRoute = window.location.pathname === "/home";
+      $rootScope.eventsRoute = window.location.pathname.startsWith("/home");
       $rootScope.ridesRoute = window.location.pathname.startsWith("/rides");
       $rootScope.historyRoute = window.location.pathname === "/history";
       $rootScope.settingsRoute = window.location.pathname === "/settings";
