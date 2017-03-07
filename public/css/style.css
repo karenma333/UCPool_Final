@@ -101,7 +101,10 @@ ng-view {
   color: #fff;
   height: 176px;
 }
-
+.event .mdl-card  > a .mdl-card__title {
+  color: #fff;
+  height: 176px;
+}
 .event .mdl-card p i {
   vertical-align: middle;
 }
@@ -206,14 +209,17 @@ ng-view {
 
 
 }
-/*.scrim > h2{
-  background: linear-gradient(to top, rgba(0,0,0,1),rgba(0,0,0,0));
+.scrim{
+  background: radial-gradient(circle, rgba(0,0,0,1) 10%,rgba(0,0,0,0) 90%);
+  background: -webkit-radial-gradient(circle, rgba(48,48,48,1) 5%,rgba(48,48,48,0) 95%);
+  background: -moz-radial-gradient(circle, rgba(0,0,0,1),rgba(0,0,0,0));
+
   width:100%;
   bottom: 0;
-}*/
+}
 
 
 .event a {
   color: white;
-  margin-top: auto;
+  /*margin-top: auto;*/
 }
