@@ -86,7 +86,6 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
 
   $scope.expandEvent = function (event) {
     event.expanded = !event.expanded;
-    // TODO hookup google analytics
     ga('send',{
       hitType: 'event',
       eventCategory:'Describe',
@@ -94,8 +93,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   };
 
   $scope.fbEventLinkClicked = function (event) {
-    // TODO hookup google analytics
-        ga('send',{
+      ga('send',{
       hitType: 'event',
       eventCategory:'Facebook',
       eventAction:'click'});
