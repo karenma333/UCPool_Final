@@ -1,3 +1,4 @@
+<body>
 <h4 style="margin-left: 20px;">Upcoming Events</h4>
 <hr>
 <div class="container">
@@ -8,16 +9,17 @@
     <div ng-repeat="event in events"
          class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
       <div class="mdl-card mdl-shadow--2dp">
-        <div class="mdl-card__title scrim" back-img="{{event.cover}}">
-          <a ng-href="https://facebook.com/{{event.fbEventId}}" target="_blank"></a>
-        </div>
+        <a ng-href="https://facebook.com/{{event.fbEventId}}" ng-click="fbEventLinkClicked(event)" target="_blank">
+          <div class="mdl-card__title scrim" back-img="{{event.cover}}">
+          </div>
+        </a>
         <div class="mdl-card__supporting-text">
           <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2>
 
           <!--TODO-->
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}} at {{getFormattedTime(event.startTime)}}</p>
-          <p ng-click="event.expanded = !event.expanded">Description
+          <p ng-click="expandEvent(event)">Description
             <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect">
               <i class="material-icons" ng-hide="event.expanded">keyboard_arrow_down</i>
               <i class="material-icons" ng-show="event.expanded">keyboard_arrow_up</i>
@@ -49,3 +51,14 @@
     </div>
   </div>
 </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92959048-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>

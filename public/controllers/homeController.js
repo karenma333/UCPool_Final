@@ -84,6 +84,15 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     });
   };
 
+  $scope.expandEvent = function (event) {
+    event.expanded = !event.expanded;
+    // TODO hookup google analytics
+  };
+
+  $scope.fbEventLinkClicked = function (event) {
+    // TODO hookup google analytics
+  };
+
   var bound = false;
   function bindAutoComplete() {
     autoCompleteRide.addListener('place_changed', function () {
