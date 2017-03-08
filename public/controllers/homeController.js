@@ -88,7 +88,7 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     event.expanded = !event.expanded;
     ga('send',{
       hitType: 'event',
-      eventCategory:'Describe',
+      eventCategory:'Describe' + (window.location.pathname === '/homeA' ? 'A' : 'B'),
       eventAction:'click'});
   };
 
