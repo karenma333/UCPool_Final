@@ -43,7 +43,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  function fetchUpcomingEvents() {
+  $scope.fetchUpcomingEvents = function() {
+    $scope.events = null;
     $http.get('/api/events/upcoming')
       .then(function success(response) {
         response.data.forEach(function (event) {
@@ -56,13 +57,13 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         $rootScope.showSnackbar({
           message: 'Unknown Error',
           actionText: 'Retry',
-          actionHandler: fetchUpcomingEvents
+          actionHandler: $scope.fetchUpcomingEvents
         });
       });
-  }
+  };
 
   if (isLoggedIn()) {
-    fetchUpcomingEvents();
+    $scope.fetchUpcomingEvents();
   }
 
   $scope.dismissEvent = function (event) {
@@ -118,6 +119,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   }
 
   var modalRide = $('#eventsRideModal');
+  modalRide.off();
+  modalRide.find('*').off();
   var currentEventRide;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
@@ -174,6 +177,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   /** I'm driving **/
 
   var modalDrive = $('#eventsDriveModal');
+  modalDrive.off();
+  modalDrive.find('*').off();
   var currentEventDrive;
   $scope.giveRide = function (event) {
     if (!bound && !autoCompleteDrive) {
