@@ -69,6 +69,10 @@ ng-view {
   margin-right: 5px;
 }
 
+#fb-button2 i {
+  margin-right: 5px;
+}
+
 .mdl-textfield .error, .mdl-js-textfield .error {
   color: #d50000;
   position: absolute;
@@ -222,4 +226,35 @@ ng-view {
 .event a {
   color: white;
   /*margin-top: auto;*/
+}
+
+
+#static-home-grid {
+  padding: 0;
+}
+
+#static-home-grid > div {
+  margin: 0;
+  width: 100%;
+  padding: 20px;
+}
+
+#landing-mutual-interests {
+  background: #439fe0;
+}
+
+#landing-facebook-events {
+  background: #439fe0;
+}
+
+#img-facebook-events {
+  width: 100%;
+}
+
+#img-get-notifications {
+  width: 100%;
+}
+
+#img-mutual-interests {
+  width: 100%;
 }
