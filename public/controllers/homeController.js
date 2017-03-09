@@ -118,6 +118,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   }
 
   var modalRide = $('#eventsRideModal');
+  modalRide.off();
+  modalRide.find('*').off();
   var currentEventRide;
   $scope.getRide = function (event) {
     if (!bound && !autoCompleteRide) {
@@ -174,6 +176,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   /** I'm driving **/
 
   var modalDrive = $('#eventsDriveModal');
+  modalDrive.off();
+  modalDrive.find('*').off();
   var currentEventDrive;
   $scope.giveRide = function (event) {
     if (!bound && !autoCompleteDrive) {
