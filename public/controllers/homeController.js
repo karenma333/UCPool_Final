@@ -43,7 +43,8 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
     $scope.submitting = true;
   };
 
-  function fetchUpcomingEvents() {
+  $scope.fetchUpcomingEvents = function() {
+    $scope.events = null;
     $http.get('/api/events/upcoming')
       .then(function success(response) {
         response.data.forEach(function (event) {
@@ -56,13 +57,13 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         $rootScope.showSnackbar({
           message: 'Unknown Error',
           actionText: 'Retry',
-          actionHandler: fetchUpcomingEvents
+          actionHandler: $scope.fetchUpcomingEvents
         });
       });
-  }
+  };
 
   if (isLoggedIn()) {
-    fetchUpcomingEvents();
+    $scope.fetchUpcomingEvents();
   }
 
   $scope.dismissEvent = function (event) {
