@@ -239,22 +239,34 @@ ng-view {
   padding: 20px;
 }
 
-#landing-mutual-interests {
-  background: #439fe0;
+#static-home-grid > div > img {
+  max-width: 400px;
 }
 
 #landing-facebook-events {
   background: #439fe0;
 }
 
-#img-facebook-events {
+#landing-get-notifications {
+  background: #439fe0;
+}
+
+#landing-sign-up {
+  background: #439fe0;
+}
+
+#landing-facebook-events > img {
   width: 100%;
 }
 
-#img-get-notifications {
+#landing-get-notifications > img {
   width: 100%;
 }
 
-#img-mutual-interests {
+#landing-mutual-interests > img{
   width: 100%;
+}
+
+#img-mobile-first {
+  max-height: 280px;
 }

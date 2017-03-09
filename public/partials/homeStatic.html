@@ -1,6 +1,6 @@
 <div class="mdl-grid" id="static-home-grid">
   <div class="mdl-typography--text-center">
-    <img class="profile-picture img-circle" ng-src="/images/welcome_card.jpg">
+    <img class="profile-picture img-circle" ng-src="/images/logo.png">
     <h2>UCPOOL</h2>
     <button id="fb-button" ng-disabled="submitting"
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
@@ -8,7 +8,7 @@
     <p class="text-danger">{{error}}</p>
   </div>
   <div class="mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--12-col-desktop" id ="landing-facebook-events">
-    <img src="https://a.slack-edge.com/0180/img/tour/everywhere.png" id="img-facebook-events">
+    <img src="/images/facebook and UCPool.png">
     <h4>All your Facebook events in one place.</h4>
     <p>
       UCPool allows you to get all the information you need from your Facebook events
@@ -16,7 +16,17 @@
     </p>
   </div>
   <div class="mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--12-col-desktop">
-    <img src="https://a.slack-edge.com/66f9/img/tour/notification.png" id="img-get-notifications">
+    <div class="mdl-typography--text-center">
+    <img src="images/mobile first.png" id="img-mobile-first">
+    </div>
+    <h4>Mobile first.</h4>
+    <p>
+      UCPool is built primarily for mobile devices, so you can access information about your events,
+      request or offer rides, and check all of your past or future rides at any time, wherever you are.
+    </p>
+  </div>
+  <div class="mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--12-col-desktop" id="landing-get-notifications">
+    <img src="images/sample notification.png">
     <h4>Get notified for ride-sharing opportunities.</h4>
     <p>
       If you need a ride to an event, we will let you know when we have found you a ride.
@@ -32,7 +42,7 @@
       interests, allowing you to meet interesting people who like the same things you do.
     </p>
   </div>
-  <div class="mdl-typography--text-center">
+  <div class="mdl-typography--text-center" id="landing-sign-up">
     <h3>Sign up today.</h3>
     <button id="fb-button-2" ng-disabled="submitting"
             class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
