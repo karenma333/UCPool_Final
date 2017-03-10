@@ -68,7 +68,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
 
   $locationProvider.html5Mode(true);
 })
-  .run(function ($rootScope, $location, $timeout) {
+  .run(function ($rootScope, $location, $timeout, $http) {
     $rootScope.isLoggedIn = isLoggedIn;
     $rootScope.$on('$routeChangeStart', function (event, next, current) {
       if (!next.$$route || next.$$route.redirectTo) {
@@ -81,8 +81,32 @@ angularApp.config(function ($routeProvider, $locationProvider) {
       $rootScope.hideNavBar = next.$$route.hideNavBar;
     });
 
-    $rootScope.pendingRides = [];
-    $rootScope.confirmedRides = [];
+    $rootScope.fetchPendingRides = function () {
+      $http.get('/api/events/pending')
+        .then(function (response) {
+          response.data.forEach(event => {
+            event.startTime = new Date(event.startTime);
+            if (event.riders) {
+              event.riders.forEach(rider => {
+                rider.canPick = true;
+              });
+            }
+          });
+          $rootScope.pendingRides = response.data;
+          // TODO add badge to nav bar button
+        });
+    };
+    $rootScope.fetchPendingRides();
+
+    $rootScope.fetchConfirmedRides = function () {
+      $http.get('/api/events/confirmed')
+        .then(function (response) {
+          response.data.forEach(event => {
+            event.startTime = new Date(event.startTime);
+          });
+          $rootScope.confirmedRides = response.data;
+        });
+    };
 
     /**
      * Show snack bar on the screen

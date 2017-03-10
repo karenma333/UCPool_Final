@@ -16,6 +16,8 @@ fs.readFile('./views/verificationEmail.jade', 'utf8', (err, data) => {
 });
 
 const userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
   email: String,
   facebookId: String,
   facebookToken: String,
@@ -69,6 +71,24 @@ userSchema.methods.updateFacebookToken = function (token, next) {
       return next(new Error('Invalid token provided.'));
     }
     user.facebookToken = fbRes.access_token;
+    user.save(next);
+  });
+};
+
+/**
+ * Update user's name from Facebook
+ * @param next callback (err)
+ */
+userSchema.methods.updateNameFromFacebook = function (next) {
+  let user = this;
+  let fb = new FB.Facebook();
+  fb.setAccessToken(user.facebookToken);
+  fb.api('/me?fields=first_name,last_name', fbRes => {
+    if (!fbRes || fbRes.error) {
+      return next(new Error((fbRes) ? fbRes.error : 'Nothing received from facebook.'));
+    }
+    user.firstName = fbRes.first_name;
+    user.lastName = fbRes.last_name;
     user.save(next);
   });
 };

@@ -162,8 +162,17 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         timeoutHandler: function () {
           event.place = place;
           event.driving = false;
-          $rootScope.pendingRides.push(event);
-          $rootScope.$apply()
+          // $rootScope.pendingRides.push(event);
+          // $rootScope.$apply()
+          $http.post('/api/events/' + event._id + '/ride', null)
+            .then(function success() {}, function failure(response) {
+              $rootScope.showSnackbar({
+                message: (response.status === 400) ? response.data.error : 'Unknown error'
+              });
+              console.log(response);
+              event.riding = false;
+              $scope.$apply();
+            });
         }
       });
     }
@@ -203,10 +212,12 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
   });
   modalFormDrive.submit(function (e) {
     e.preventDefault();
-    if ($scope.placeDrive) {
+    let seatsString = $('#seatsInput').val();
+    if ($scope.placeDrive && seatsString && !isNaN(seatsString)) {
       console.log('Successfully selected place:', $scope.placeDrive, ' for event ', currentEventDrive);
       var event = currentEventDrive;
       var place = $scope.placeDrive;
+      var seats = parseInt(seatsString);
       modalDrive.modal('toggle');
       event.driving = true;
       $scope.$apply();
@@ -219,8 +230,17 @@ angularApp.controller('homeController', function($scope, $http, $rootScope, $loc
         },
         timeoutHandler: function () {
           event.place = place;
-          $rootScope.pendingRides.push(event);
-          $rootScope.$apply()
+          // $rootScope.pendingRides.push(event);
+          // $rootScope.$apply()
+          $http.post('/api/events/' + event._id + '/drive', {seats: seats})
+            .then(function success() {}, function failure(response) {
+            $rootScope.showSnackbar({
+                message: (response.status === 400) ? response.data.error : 'Unknown error'
+              });
+              console.log(response);
+              event.driving = false;
+              $scope.$apply();
+            });
         }
       });
     }

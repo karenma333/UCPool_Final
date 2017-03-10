@@ -6,11 +6,31 @@ const Event = new mongoose.Schema({
   description: String,
   startTime: Date,
   fbEventId: {type: String, unique: true},
-  rides: [{driver: mongoose.Schema.Types.ObjectId, seats: Number, passengers: [{userId: mongoose.Schema.Types.ObjectId}]}],
+  rides: [{
+    driver: mongoose.Schema.Types.ObjectId,
+    seats: Number,
+    passengers: [{
+      userId: mongoose.Schema.Types.ObjectId
+    }],
+    offers: [{
+      userId: mongoose.Schema.Types.ObjectId,
+      approved: {type: Boolean, default: false}
+    }]
+  }],
   unmatched: [{userId: mongoose.Schema.Types.ObjectId}],
   participants: [mongoose.Schema.Types.ObjectId]
 });
 
+const testUsers = ['58c2051cf36d281631b34a15', '58c2055bf36d281631b34a8c', '58c2040df36d281631b349b2', '58c09258f36d2837b812cfec'];
+
+const getShuffledTestUsers = function shuffle() {
+  let a = testUsers.map(testUser => testUser);
+  for (let i = a.length; i; i--) {
+    let j = Math.floor(Math.random() * i);
+    [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+  return a;
+};
 
 /**
  * Add new participant for an event
@@ -65,6 +85,99 @@ Event.statics.registerParticipant = function (user, fbEvents, next) {
 
     user.save(next);
   });
+};
+
+
+/**
+ * Register a new driver for the event
+ * @param user User object
+ * @param seats number of people he/she can pick up
+ * @param next callback (err)
+ */
+Event.methods.registerDriver = function (user, seats, next) {
+  let event = this;
+  event.rides.push({
+    driver: user.id,
+    seats: seats,
+    passengers: [],
+    offers: []
+  });
+  event.save(next);
+};
+
+
+/**
+ * Register user as an unmatched rider
+ * @param user User object
+ * @param next callback (err)
+ */
+Event.methods.registerRider = function (user, next) {
+  let event = this;
+  event.unmatched.push({userId: user.id});
+  event.save(next);
+};
+
+/**
+ * Hacky match people LOOLLLLL!!!
+ * @param next callback (err)
+ */
+Event.methods.hackyMatch = function (next) {
+  let event = this;
+  // Add all riders to as many rides as possible
+  for (let i = 0; i < event.unmatched.length; i++) {
+    let rider = event.unmatched[i].userId;
+    for (let j = 0; j < event.rides.length; j++) {
+      let ride = event.rides[j];
+      let availableMatches = ride.seats - ride.passengers.length - ride.offers.length;
+      if (availableMatches <= 0) {
+        continue;
+      }
+      ride.offers.push({
+        userId: rider,
+        approved: true
+      });
+      event.unmatched.splice(i, 1);
+      i--;
+      break;
+    }
+  }
+
+  let carsNeeded = Math.floor(event.unmatched.length / 4) + ((event.unmatched.length % 4 == 0) ? 0 : 1);
+  if (!carsNeeded) {
+    // Get passenger for drivers
+    for (let i = 0; i < event.rides.length; i++) {
+      let ride = event.rides[i];
+      let numSeats = ride.seats - ride.passengers.length - ride.offers.length;
+      if (numSeats <= 0) {
+        continue;
+      }
+      let dummyRiders = getShuffledTestUsers();
+      for (let j = 0; j < dummyRiders.length && j < numSeats; j++) {
+        ride.offers.push({
+          userId: dummyRiders[j],
+          approved: false
+        });
+      }
+    }
+  } else {
+    // Get drivers for passengers
+    for (let i = 0; i < carsNeeded; i++) {
+      let ride = {
+        driver: testUsers[Math.floor(Math.random() * testUsers.length)],
+        passengers: [],
+        offers: []
+      };
+      for (let j = 0; j < 4 && j < event.unmatched.length; j++) {
+        ride.offers.push({
+          userId: event.unmatched[0].userId,
+          approved: true
+        });
+        event.unmatched.splice(0, 1);
+      }
+      event.rides.push(ride);
+    }
+  }
+  event.save(next);
 };
 
 

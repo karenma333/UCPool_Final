@@ -11,7 +11,7 @@
   <script src="https://use.fontawesome.com/ad621baed8.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-red.min.css">
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
   <!--Angular and Routes-->
@@ -133,8 +133,9 @@
           </div>
             <h3 class="dialog-title">Number of seats:</h3>
           <div class="mdl-textfield textfield-pad mdl-js-textfield">
-            <input class="mdl-textfield__input" placeholder="Enter number of free seats:" type="text"/>
-            <label class="mdl-textfield__label" for="autoCompleteRide">Enter number of seats</label>
+            <input class="mdl-textfield__input" placeholder="Enter number of free seats:" type="text" id="seatsInput" pattern="-?[0-9]*(\.[0-9]+)?"/>
+            <label class="mdl-textfield__label" for="seatsInput">Enter number of seats</label>
+            <span class="mdl-textfield__error">Not a valid number</span>
           </div>
         </form>
       </div>

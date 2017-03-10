@@ -18,15 +18,15 @@
         </div>
 
         <!--Rider-->
-        <div ng-if="!ride.driving">
+        <div ng-if="ride.driver">
           <div class="mdl-card__supporting-text">
             <p>
-              <a href="https://www.facebook.com/zuck" target="_blank">
-                <img class="profile-picture-sm img-circle" src="http://blogs.timesofindia.indiatimes.com/wp-content/uploads/2015/12/mark-zuckerberg.jpg">
+              <a ng-href="https://www.facebook.com/{{ride.driver.facebookId}}" target="_blank">
+                <img class="profile-picture-sm img-circle" ng-src="https://graph.facebook.com/{{ride.driver.facebookId}}/picture?height=50&width=50">
               </a>
-              Mark will pick you up from:
+              {{ride.driver.firstName}} will pick you up from:
             </p>
-            <p><i class="material-icons md-18">location_on</i> {{ride.place.formatted_address}}</p>
+            <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           </div>
           <div class="mdl-card__actions mdl-card--border">
             <a ng-href="#" ng-click="confirmRide(ride)">
@@ -44,50 +44,26 @@
 
 
         <!--Driver-->
-        <div ng-if="ride.driving">
+        <div ng-if="ride.riders">
           <div class="mdl-card__supporting-text">
-            <p>We've found 3 people you can pick up</p>
+            <p>We've found {{ride.riders.length}} people you can pick up</p>
           </div>
           <div class="mdl-list">
-            <li class="mdl-list__item">
+            <div ng-repeat="rider in ride.riders">
+              <li class="mdl-list__item">
                 <span class="mdl-list__item-primary-content">
-                  <a href="https://www.facebook.com/stevejobs.co.uk/" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU0NTIzODQwMDE1/steven-jobs-9354805-2-402.jpg">
+                  <a ng-href="https://www.facebook.com/{{rider.facebookId}}" target="_blank">
+                    <img class="profile-picture-sm img-circle" ng-src="https://graph.facebook.com/{{rider.facebookId}}/picture?height=50&width=50">
                   </a>
-                     Steve Jobs
+                     {{rider.firstName}} {{rider.lastName}}
                 </span>
-              <span class="mdl-list__item-secondary-action">
+                <span class="mdl-list__item-secondary-action">
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-2">
-                    <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" checked />
+                    <input type="checkbox" id="list-checkbox-2" class="mdl-checkbox__input" ng-model="rider.canPick" />
                   </label>
                 </span>
-            </li>
-            <li class="mdl-list__item">
-                <span class="mdl-list__item-primary-content">
-                  <a href="https://www.facebook.com/Emma-Stone-459300464094268/?fref=ts" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="http://ind5.ccio.co/A6/89/k2/1491114376319826601eHipHvjc.jpg">
-                  </a>
-                     Emma Stone
-                </span>
-              <span class="mdl-list__item-secondary-action">
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-3">
-                    <input type="checkbox" id="list-checkbox-3" class="mdl-checkbox__input" checked />
-                  </label>
-                </span>
-            </li>
-            <li class="mdl-list__item">
-                <span class="mdl-list__item-primary-content">
-                  <a href="https://www.facebook.com/pages/Elon-Musk/108250442531979?fref=ts" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="https://pbs.twimg.com/profile_images/782474226020200448/zDo-gAo0_400x400.jpg">
-                  </a>
-                     Elon Musk
-                </span>
-              <span class="mdl-list__item-secondary-action">
-                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-4">
-                    <input type="checkbox" id="list-checkbox-4" class="mdl-checkbox__input" checked />
-                  </label>
-                </span>
-            </li>
+              </li>
+            </div>
           </div>
           <div class="mdl-card__actions mdl-card--border">
             <a ng-href="#" ng-click="confirmPickup(ride)">

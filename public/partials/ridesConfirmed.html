@@ -18,7 +18,7 @@
         </div>
 
         <!--Rider-->
-        <div ng-if="!ride.driving">
+        <div ng-if="ride.driver">
           <div class="mdl-card__supporting-text">
             <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
             <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(ride.startTime)}}</p>
@@ -26,80 +26,39 @@
           </div>
           <div class="mdl-card__actions mdl-card--border">
             <p>
-              <a href="https://www.facebook.com/zuck" target="_blank">
-                <img class="profile-picture-sm img-circle" src="http://blogs.timesofindia.indiatimes.com/wp-content/uploads/2015/12/mark-zuckerberg.jpg">
+              <a ng-href="https://www.facebook.com/{{ride.driver.facebookId}}" target="_blank">
+                <img class="profile-picture-sm img-circle" ng-src="https://graph.facebook.com/{{ride.driver.facebookId}}/picture?height=50&width=50">
               </a>
-              Mark will pick you up
+              {{ride.driver.firstName}} will pick you up
             </p>
           </div>
         </div>
 
 
         <!--Driver-->
-        <div ng-if="ride.driving">
+        <div ng-if="ride.riders">
           <div class="mdl-card__supporting-text">
-            <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
-            <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(ride.startTime)}}</p>
-            <p><i class="material-icons md-18">access_time</i> {{getFormattedTime(ride.startTime)}}</p>
+            <p>Please pick up</p>
           </div>
-
-          <div class="mdl-card__actions mdl-card--border">
-            <p>Please Pick up:</p>
-
-            <table class="mdl-data-table mdl-js-data-table" style="border: 0; margin: 0 auto;">
-              <thead>
-              <tr>
-                <th class="mdl-data-table__cell--non-numeric"></th>
-                <th class="mdl-data-table__cell--non-numeric">Name</th>
-                <th class="mdl-data-table__cell--non-numeric">Contact</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric">
-                  <a href="https://www.facebook.com/stevejobs.co.uk/" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="https://www.biography.com/.image/c_fill,cs_srgb,dpr_1.0,g_face,h_300,q_80,w_300/MTE5NDg0MDU0NTIzODQwMDE1/steven-jobs-9354805-2-402.jpg">
+          <div class="mdl-list">
+            <div ng-repeat="rider in ride.riders">
+              <li class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                  <a ng-href="https://www.facebook.com/{{rider.facebookId}}" target="_blank">
+                    <img class="profile-picture-sm img-circle" ng-src="https://graph.facebook.com/{{rider.facebookId}}/picture?height=50&width=50">
                   </a>
-                </td>
-                <td class="mdl-data-table__cell--non-numeric">Steve Jobs</td>
-                <td class="mdl-data-table__cell--non-numeric">
+                     {{rider.firstName}} {{rider.lastName}}
+                </span>
+                <span class="mdl-list__item-secondary-action">
                   <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
-                    TEXT
+                    MESSAGE
                   </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric">
-                  <a href="https://www.facebook.com/Emma-Stone-459300464094268/?fref=ts" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="http://ind5.ccio.co/A6/89/k2/1491114376319826601eHipHvjc.jpg">
-                  </a>
-                </td>
-                <td class="mdl-data-table__cell--non-numeric">Emma Stone</td>
-                <td class="mdl-data-table__cell--non-numeric">
-                  <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
-                    TEXT
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="mdl-data-table__cell--non-numeric">
-                  <a href="https://www.facebook.com/pages/Elon-Musk/108250442531979?fref=ts" target="_blank">
-                    <img class="profile-picture-sm img-circle" src="https://pbs.twimg.com/profile_images/782474226020200448/zDo-gAo0_400x400.jpg">
-                  </a>
-                </td>
-                <td class="mdl-data-table__cell--non-numeric">Elon Musk</td>
-                <td class="mdl-data-table__cell--non-numeric">
-                  <button class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
-                    TEXT
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+                </span>
+              </li>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
