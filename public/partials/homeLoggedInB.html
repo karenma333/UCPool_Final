@@ -10,21 +10,16 @@
     <div ng-repeat="event in events"
          class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">
       <div class="mdl-card mdl-shadow--2dp">
-        <a ng-href="https://facebook.com/{{event.fbEventId}}" ng
-          -click="fbEventLinkClicked(event)" target="_blank">
-        <div class="mdl-card__title scrim" back-img="{{event.cover}}">
-          <!--  <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2> -->
+        <a ng-href="https://facebook.com/{{event.fbEventId}}" ng-click="fbEventLinkClicked(event)" target="_blank">
+          <div class="mdl-card__title scrim" back-img="{{event.cover}}">
+            <!--  <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2> -->
 
-           <h4 class="mdl-card__title-text nameShadow">Click to see Facebook event</h4>
+            <h4 class="mdl-card__title-text nameShadow">Click to see Facebook event</h4>
 
-        </div>
+          </div>
         </a>
         <div class="mdl-card__supporting-text">
-          <!--TODO-->
-          <a ng-href="https://facebook.com/{{event.fbEventId}}" ng
-          -click="fbEventLinkClicked(event)" target="_blank">
-           <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2>
-           </a>
+          <h3>{{event.name}}</h3>
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}} at {{getFormattedTime(event.startTime)}}</p>
           <p ng-click="expandEvent(event)">Description

@@ -22,7 +22,7 @@
         </div>
         <div class="mdl-card__supporting-text">
           <!--TODO-->
-          <h2 class="mdl-card__title-text nameShadow">{{event.name}}</h2>
+          <h3>{{event.name}}</h3>
           <p><i class="material-icons md-18">location_on</i> 123 Stanford St.</p>
           <p><i class="material-icons md-18">date_range</i> {{getFormattedDate(event.startTime)}} at {{getFormattedTime(event.startTime)}}</p>
           <p ng-click="expandEvent(event)">Description
