@@ -4,6 +4,15 @@
   <div class="events-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner" ng-class="{'is-active': !events}"
        ng-hide="events"></div>
 
+  <div ng-show="events && events.length == 0" class="mdl-typography--text-center">
+    <h4>You don't have any past events.</h4>
+    <a ng-href="/home">
+      <div class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        Go To Upcoming Events
+      </div>
+    </a>
+  </div>
+
   <div class="mdl-grid">
     <div ng-repeat="event in events"
          class="event mdl-cell mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-cell--6-col-desktop">

@@ -1,26 +1,10 @@
 var angularApp = angular.module('UCPool', ['ngRoute', 'ngAnimate']);
 angularApp.config(function ($routeProvider, $locationProvider) {
   $routeProvider
-    .when('/home', function () {
-      if (!isLoggedIn()) {
-        return {
-          templateUrl: './partials/homeStatic.html',
-          controller: 'homeController',
-          unauthenticated: true
-        };
-      }
-      var versionA = (Math.floor(Math.random() * 2) == 0);
-      return {
-        redirectTo: versionA ? '/homeA' : '/homeB'
-      };
-    }())
-    .when('/homeA', {
-      templateUrl: './partials/homeLoggedInA.html',
-      controller: 'homeController'
-    })
-    .when('/homeB', {
-      templateUrl: './partials/homeLoggedInB.html',
-      controller: 'homeController'
+    .when('/home', {
+        templateUrl: isLoggedIn() ? './partials/homeLoggedIn.html' : './partials/homeStatic.html',
+        controller: 'homeController',
+        unauthenticated: true
     })
     .when('/register', {
       templateUrl: './partials/register.html',
@@ -147,7 +131,7 @@ angularApp.config(function ($routeProvider, $locationProvider) {
     };
 
     $rootScope.$on('$routeChangeSuccess', function () {
-      $rootScope.eventsRoute = window.location.pathname.startsWith("/home");
+      $rootScope.eventsRoute = window.location.pathname === "/home";
       $rootScope.ridesRoute = window.location.pathname.startsWith("/rides");
       $rootScope.historyRoute = window.location.pathname === "/history";
       $rootScope.settingsRoute = window.location.pathname === "/settings";

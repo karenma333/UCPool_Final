@@ -35,7 +35,7 @@ module.exports = (req, res, next) => {
               secret,
               { expiresIn: '5m', issuer: payload.iss });
 
-            res.cookie('Authorization', token, {expire: (refToken.lastUpdated + two_weeks_millis), signed: true, httpOnly: false});
+            res.cookie('Authorization', token, {maxAge: two_weeks_millis, signed: true, httpOnly: false});
             req.userId = payload.iss;
             req.refreshToken = payload.refreshToken;
             next();

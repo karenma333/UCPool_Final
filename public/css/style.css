@@ -271,3 +271,7 @@ ng-view {
 #img-mobile-first {
   max-height: 280px;
 }
+
+.no-decoration {
+  text-decoration: none;
+}
