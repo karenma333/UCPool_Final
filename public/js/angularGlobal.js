@@ -135,9 +135,12 @@ angularApp.run(function ($rootScope, $location, $timeout, $http) {
 
 
   // Firebase Cloud Messaging
-  const messaging = firebase.messaging();
+  function isChrome() {
+    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  }
 
-  if (isLoggedIn()) {
+  if (isLoggedIn() && isChrome()) {
+    const messaging = firebase.messaging();
     messaging.requestPermission()
       .then(function() {
         console.log('Notification permission granted.');
