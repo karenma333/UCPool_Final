@@ -4,8 +4,8 @@ const config = require('../config');
 const mailComposer = require('mailcomposer');
 const mailGun = require('mailgun-js')(config.mailGunConfig);
 const FB = require('fb');
-const Event = require('../models/Event');
-
+const Event = require('./Event');
+const admin = require('firebase-admin');
 const jade = require('jade');
 const fs = require('fs');
 let verEmailTemplate = null;
@@ -22,12 +22,86 @@ const userSchema = new mongoose.Schema({
   facebookId: String,
   facebookToken: String,
   verified: {type: Boolean, default: false},
-  events: [{eventId: {type: mongoose.Schema.Types.ObjectId, unique: true}, fbEventId: String, dismissed: Boolean}]
+  events: [{eventId: {type: mongoose.Schema.Types.ObjectId, unique: true}, fbEventId: String, dismissed: Boolean}],
+  fcmTokens: [String]
 });
 
 
 /**
- * Send the verification email for the user
+ * Remove an fcm token from user
+ * @param userId User id
+ * @param token fcm token to remove
+ * @param next callback (err, user)
+ */
+userSchema.statics.removeFcmToken = function (userId, token, next) {
+  this.findById(userId, (err, user) => {
+    if (err) {
+      return next(err, null);
+    }
+    user.removeFcmToken(token, next);
+  });
+};
+
+
+/**
+ * Remove an fcm token from user
+ * @param token fcm token to remove
+ * @param next callback (err, user)
+ */
+userSchema.methods.removeFcmToken = function (token, next) {
+  let user = this;
+  let index = user.fcmTokens.indexOf(token);
+  if (index !== -1) {
+    user.fcmTokens.splice(index, 1);
+  }
+
+  user.save(err => {
+    if (err) {
+      return next(err, null);
+    }
+    return next(null, user);
+  });
+};
+
+
+/**
+ * Register an fcm token with the user
+ * @param userId User id
+ * @param token FCM token
+ * @param next callback (err, user)
+ */
+userSchema.statics.registerFcmToken = function (userId, token, next) {
+  this.findById(userId, (err, user) => {
+    if (err) {
+      return next(err, null);
+    }
+    user.registerFcmToken(token, next);
+  });
+};
+
+
+/**
+ * Register an fcm token with the user
+ * @param token FCM token
+ * @param next callback (err, user)
+ */
+userSchema.methods.registerFcmToken = function (token, next) {
+  let user = this;
+  if (!user.fcmTokens.includes(token)) {
+    user.fcmTokens.push(token);
+  }
+
+  user.save(err => {
+    if (err) {
+      return next(err, null);
+    }
+    return next(null, user);
+  });
+};
+
+
+/**
+ * Send the verification email for the userRoute
  * @param next callback (err)
  */
 userSchema.methods.sendVerificationEmail = function(next) {
@@ -56,7 +130,7 @@ userSchema.methods.sendVerificationEmail = function(next) {
  * Use the short lived token and make a call to Facebook to get a long lived token
  * and save it to the DB
  * @param token short lived FB access token from the client side
- * @param next callback (err, user)
+ * @param next callback (err, userRoute)
  */
 userSchema.methods.updateFacebookToken = function (token, next) {
   let user = this;
@@ -76,7 +150,7 @@ userSchema.methods.updateFacebookToken = function (token, next) {
 };
 
 /**
- * Update user's name from Facebook
+ * Update userRoute's name from Facebook
  * @param next callback (err)
  */
 userSchema.methods.updateNameFromFacebook = function (next) {
@@ -94,9 +168,9 @@ userSchema.methods.updateNameFromFacebook = function (next) {
 };
 
 /**
- * Register the user in the database
+ * Register the userRoute in the database
  * @param user User to register in the database
- * @param next callback (err, user)
+ * @param next callback (err, userRoute)
  */
 userSchema.statics.register = function (user, next) {
   this.findOne({$or: [{email: user.email}, {facebookId: user.facebookId}]}, (err, query) => {
@@ -139,7 +213,7 @@ userSchema.methods.fetchFacebookEvents = function () {
         }
       }
       if (!exists) {
-        // New Event for the user
+        // New Event for the userRoute
         newEvents.push(fbEvent);
       }
     });
@@ -168,6 +242,50 @@ userSchema.methods.fetchFacebookEvents = function () {
       Event.registerParticipant(user, newEvents, () => {});
     });
   });
+};
+
+userSchema.methods.sendPushAsRider = function (event) {
+  let user = this;
+  if (user.fcmTokens.length === 0) {
+    return;
+  }
+  event.rides.forEach(ride => {
+    for (let i = 0; i < ride.offers.length; i++) {
+      if (ride.offers[i].userId == user.id) {
+        mongoose.model('User', userSchema).findById(ride.driver.toString(), (err, driver) => {
+          if (err || !driver) {
+            return;
+          }
+          let payload = {
+            notification: {
+              title: 'Ride Found',
+              body: driver.firstName + ' can drive you to ' + event.name,
+              icon: 'https://graph.facebook.com/' + driver.facebookId + '/picture?height=400&width=400',
+              click_action: 'https://www.ucpool.com/rides/pending/'
+            }
+          };
+          admin.messaging().sendToDevice(user.fcmTokens, payload);
+        });
+      }
+    }
+  });
+};
+
+
+userSchema.methods.sendPushAsDriver = function (event) {
+  let user = this;
+  if (user.fcmTokens.length === 0) {
+    return;
+  }
+  let payload = {
+    notification: {
+      title: 'Passengers Found',
+      body: 'We found some people that you can drive to ' + event.name,
+      icon: 'https://www.ucpool.com/images/logo.png',
+      click_action: 'https://www.ucpool.com/rides/pending/'
+    }
+  };
+  admin.messaging().sendToDevice(user.fcmTokens, payload);
 };
 
 module.exports = mongoose.model('User', userSchema);

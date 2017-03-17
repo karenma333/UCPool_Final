@@ -9,6 +9,12 @@ const api = require('./routes/api');
 const verify = require('./routes/verify');
 const authenticate = require('./middlewares/authenticate');
 const mongoose = require('mongoose');
+const admin = require("firebase-admin");
+
+admin.initializeApp({
+  credential: admin.credential.cert(config.firebaseServiceAccount),
+  databaseURL: "https://uc-pool.firebaseio.com"
+});
 
 const app = express();
 

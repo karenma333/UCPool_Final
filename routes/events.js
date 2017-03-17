@@ -9,11 +9,11 @@ const publicFields = 'name description startTime fbEventId cover';
 /**
  * GET: /api/events/upcoming
  *
- * Get all the upcoming events for the currently logged in user
+ * Get all the upcoming events for the currently logged in userRoute
  *
  * EXPECTS: Nothing
  * RESPONDS: [{name, description, startTime, fbEventId, cover}],
- *          Code 401 if no user is logged in
+ *          Code 401 if no userRoute is logged in
  */
 router.get('/upcoming', (req, res) => {
   if (!req.userId) {
@@ -49,11 +49,11 @@ router.get('/upcoming', (req, res) => {
 /**
  * GET: /api/events/upcoming
  *
- * Get all the pending events for the currently logged in user
+ * Get all the pending events for the currently logged in userRoute
  *
  * EXPECTS: Nothing
  * RESPONDS: [{name, description, startTime, fbEventId, cover, driver || riders: []}],
- *          Code 401 if no user is logged in
+ *          Code 401 if no userRoute is logged in
  */
 router.get('/pending', (req, res) => {
   if (!req.userId) {
@@ -231,11 +231,11 @@ router.get('/confirmed', (req, res) => {
 /**
  * POST: /api/events/:id/drive
  *
- * Label the current user as a driver to the event
+ * Label the current userRoute as a driver to the event
  *
  * EXPECTS: {seats}
  * RESPONDS: Code 200 if all OK,
- *          Code 401 if no user is logged in,
+ *          Code 401 if no userRoute is logged in,
  *          Code 400 with error json
  */
 router.post('/:id/drive', (req, res) => {
@@ -284,7 +284,9 @@ router.post('/:id/drive', (req, res) => {
             if (err) {
               return res.sendStatus(500);
             }
-            res.sendStatus(200);
+            res.sendStatus(200);setTimeout(() => {
+              user.sendPushAsDriver(event);
+            }, 4000);
           });
         });
       });
@@ -296,11 +298,11 @@ router.post('/:id/drive', (req, res) => {
 /**
  * POST: /api/events/:id/ride
  *
- * Label the current user as a driver to the event
+ * Label the current userRoute as a driver to the event
  *
  * EXPECTS: Nothing
  * RESPONDS: Code 200 if all OK,
- *          Code 401 if no user is logged in,
+ *          Code 401 if no userRoute is logged in,
  *          Code 400 with error json
  */
 router.post('/:id/ride', (req, res) => {
@@ -343,6 +345,9 @@ router.post('/:id/ride', (req, res) => {
               return res.sendStatus(500);
             }
             res.sendStatus(200);
+            setTimeout(() => {
+              user.sendPushAsRider(event);
+            }, 4000);
           });
         });
       });
@@ -452,7 +457,7 @@ router.post('/:id/rider_confirmation', (req, res) => {
 /**
  * GET: /api/events/history
  *
- * Get the past rides the user was a part of
+ * Get the past rides the userRoute was a part of
  *
  * EXPECTS: Nothing
  *
@@ -472,7 +477,7 @@ router.get('/history', (req, res) => {
  * EXPECTS: Nothing
  *
  * RESPONDS: [{name description startTime fbEventId cover}],
- *        Code 401 is no user is logged in
+ *        Code 401 is no userRoute is logged in
  */
 router.get('/dismissed', (req, res) => {
   if (!req.userId) {
@@ -505,12 +510,12 @@ router.get('/dismissed', (req, res) => {
 /**
  * PUT: /api/events/:id/dismiss
  *
- * Dismiss the event for the logged in user
+ * Dismiss the event for the logged in userRoute
  *
  * EXPECTS: Nothing
  * RESPONDS: Code 200 if all OK,
- *          Code 401 if no user is logged in,
- *          Code 404 user is not associated to the event id
+ *          Code 401 if no userRoute is logged in,
+ *          Code 404 userRoute is not associated to the event id
  */
 router.put('/:id/dismiss', (req, res) => {
   if (!req.userId) {
@@ -546,12 +551,12 @@ router.put('/:id/dismiss', (req, res) => {
 /**
  * PUT: /api/events/:id/dismiss
  *
- * Restore a dismissed event for the logged in user
+ * Restore a dismissed event for the logged in userRoute
  *
  * EXPECTS: Nothing
  * RESPONDS: Code 200 if all OK,
- *          Code 401 if no user is logged in,
- *          Code 404 user is not associated to the event id
+ *          Code 401 if no userRoute is logged in,
+ *          Code 404 userRoute is not associated to the event id
  */
 router.put('/:id/restore', (req, res) => {
   if (!req.userId) {

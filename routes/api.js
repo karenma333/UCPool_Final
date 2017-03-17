@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const events = require('./events');
 const config = require('../config');
+const userRoute = require('./user');
 const User = require('../models/User');
 const RefreshToken = require('../models/RefreshToken');
 const jwt = require('jsonwebtoken');
@@ -12,10 +13,11 @@ const webHook = require('./webHook');
 
 router.use('/webhook', webHook);
 router.use('/events', events);
+router.use('/user', userRoute);
 
 /**
  * GET: /api/me
- * Get basic user info
+ * Get basic userRoute info
  *
  * EXPECTS: None
  * RESPONDS: {name, id} : id refers to the facebook id
@@ -37,6 +39,10 @@ router.get('/me', (req, res) => {
           user.facebookToken = null;
           return user.save((err) => {
             res.clearCookie('Authorization', null);
+            if (req.signedCookies.fcmToken) {
+              user.removeFcmToken(req.signedCookies.fcmToken, () => {});
+              res.clearCookie('fcmToken', null);
+            }
             res.sendStatus(401);
           });
         } else {
@@ -50,12 +56,12 @@ router.get('/me', (req, res) => {
 
 /**
  * POST: /api/login
- * Login a user
+ * Login a userRoute
  *
  * EXPECTS: {token}
  * RESPONDS: code 200 if all OK,
- *          401 if user not registered,
- *          403 if user is not verified,
+ *          401 if userRoute not registered,
+ *          403 if userRoute is not verified,
  *          400 with error JSON
  */
 router.post('/login', (req, res) => {
@@ -104,7 +110,7 @@ router.post('/login', (req, res) => {
 
 /**
  * POST: /api/register
- * Register a user
+ * Register a userRoute
  *
  * EXPECTS: {token, email}
  * RESPONDS: code 200 if all OK,
@@ -138,7 +144,7 @@ router.post('/register', (req, res) => {
 
 /**
  * POST: /api/resend_confirmation
- * Resend a confirmation email to the user
+ * Resend a confirmation email to the userRoute
  *
  * EXPECTS: {token}
  * RESPONDS: Code 200 if all OK,
@@ -177,22 +183,31 @@ router.post('/resend_verification', (req, res) => {
 
 /**
  * POST: /api/logout
- * Log the current user out
+ * Log the current userRoute out
  */
+
 router.post('/logout', (req, res) => {
   res.clearCookie('Authorization', null);
-  if (!req.userId)
+  res.clearCookie('fcmToken', null);
+  if (!req.userId) {
     return res.sendStatus(401);
-
+  }
   RefreshToken.findByIdAndRemove(req.refreshToken, (err, token) => {
     if (err)
       return res.sendStatus(500);
 
     if (!token)
       return res.status(400).json({error: 'Invalid token in header.'});
-
-    res.sendStatus(200);
+    let fcmToken = req.signedCookies.fcmToken;
+    if (fcmToken) {
+      User.removeFcmToken(req.userId, fcmToken, () => {
+        res.sendStatus(200);
+      });
+    } else {
+      res.sendStatus(200);
+    }
   });
+
 });
 
 module.exports = router;

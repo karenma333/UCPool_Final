@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const RefreshToken = require('../models/RefreshToken');
 const secret = require('../config').secret;
-
+const User = require('../models/User');
 const two_weeks_millis = 2*7*24*60*60*1000;
 
 module.exports = (req, res, next) => {
@@ -19,6 +19,10 @@ module.exports = (req, res, next) => {
         RefreshToken.findById(payload.refreshToken, (err, refToken) => {
           if (err || !refToken) {
             res.clearCookie('Authorization', null);
+            if (req.signedCookies.fcmToken) {
+              res.clearCookie('fcmToken', null);
+              User.removeFcmToken(payload.iss, req.signedCookies.fcmToken, () => {});
+            }
             return next();
           }
           if ((new Date(payload.refLastUpdated)).getTime() !== refToken.lastUpdated.getTime()) {
@@ -28,6 +32,10 @@ module.exports = (req, res, next) => {
           refToken.save((err, refToken) => {
             if (err) {
               res.clearCookie('Authorization', null);
+              if (req.signedCookies.fcmToken) {
+                res.clearCookie('fcmToken', null);
+                User.removeFcmToken(payload.iss, req.signedCookies.fcmToken, () => {});
+              }
               return next();
             }
 
