@@ -135,11 +135,27 @@ angularApp.run(function ($rootScope, $location, $timeout, $http) {
 
 
   // Firebase Cloud Messaging
-  function isChrome() {
-    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  function iOS() {
+
+    var iDevices = [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ];
+
+    if (!!navigator.platform) {
+      while (iDevices.length) {
+        if (navigator.platform === iDevices.pop()){ return true; }
+      }
+    }
+
+    return false;
   }
 
-  if (isLoggedIn() && isChrome()) {
+  if (isLoggedIn() && !iOS()) {
     const messaging = firebase.messaging();
     messaging.requestPermission()
       .then(function() {
