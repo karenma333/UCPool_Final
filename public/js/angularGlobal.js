@@ -135,9 +135,23 @@ angularApp.run(function ($rootScope, $location, $timeout, $http) {
 
 
   // Firebase Cloud Messaging
-  const messaging = firebase.messaging();
+  function isChrome() {
+    var isChromium = window.chrome,
+      winNav = window.navigator,
+      vendorName = winNav.vendor,
+      isOpera = winNav.userAgent.indexOf("OPR") > -1,
+      isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+      isIOSChrome = winNav.userAgent.match("CriOS");
 
-  if (isLoggedIn()) {
+    if (isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false) {
+      return false;
+    } else {
+      return false;
+    }
+  }
+
+  if (isLoggedIn() && isChrome()) {
+    const messaging = firebase.messaging();
     messaging.requestPermission()
       .then(function() {
         console.log('Notification permission granted.');
