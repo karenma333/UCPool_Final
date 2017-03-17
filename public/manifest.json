@@ -1,0 +1,14 @@
+{
+  "short_name": "UCPool",
+  "name": "UCPool",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "type": "image/png",
+      "sizes": "658x658"
+    }
+  ],
+  "start_url": "home",
+  "display": "standalone",
+  "gcm_sender_id": "103953800507"
+}
